@@ -7,31 +7,40 @@ import bcrypt from "bcryptjs";
 import { revalidatePath } from "next/cache";
 
 export async function login(_prevState: unknown, formData: FormData) {
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
+    try {
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
 
-    if (!email || !password) {
-        return { error: "Email and password are required." };
+        if (!email || !password) {
+            return { error: "Email and password are required." };
+        }
+
+        const user = await prisma.user.findUnique({ where: { email } });
+        if (!user) {
+            return { error: "Invalid email or password." };
+        }
+
+        const valid = await bcrypt.compare(password, user.password);
+        if (!valid) {
+            return { error: "Invalid email or password." };
+        }
+
+        await setSessionCookie({
+            id: user.id,
+            email: user.email,
+            name: user.name,
+            role: user.role,
+        });
+
+        redirect("/");
+    } catch (e: unknown) {
+        // redirect() throws a special error in Next.js — rethrow it
+        if (e && typeof e === "object" && "digest" in e) {
+            throw e;
+        }
+        const message = e instanceof Error ? e.message : String(e);
+        return { error: `Login failed: ${message}` };
     }
-
-    const user = await prisma.user.findUnique({ where: { email } });
-    if (!user) {
-        return { error: "Invalid email or password." };
-    }
-
-    const valid = await bcrypt.compare(password, user.password);
-    if (!valid) {
-        return { error: "Invalid email or password." };
-    }
-
-    await setSessionCookie({
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        role: user.role,
-    });
-
-    redirect("/");
 }
 
 export async function logout() {
