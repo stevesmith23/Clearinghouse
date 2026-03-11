@@ -1,0 +1,119 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Company {
+  id           String    @id @default(cuid())
+  name         String
+  dotNumber    String?
+  email        String?
+  phone        String?
+  queryBalance         Int       @default(0)
+  lastBulkQueryDate    DateTime?
+  nextBulkQueryDueDate DateTime?
+  
+  // Automated Email Scheduling Flags
+  autoSendBuyQueriesDate   DateTime?
+  autoSendUpdateRosterDate DateTime?
+  autoSend10DaysBefore     Boolean   @default(false)
+
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  drivers              Driver[]
+  queries              Query[]
+}
+
+model Driver {
+  id               String      @id @default(cuid())
+  firstName        String
+  lastName         String
+  cdlNumber        String
+  cdlState         String
+  dob              DateTime?
+  companyId        String
+  company          Company     @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  consents         Consent[]
+  queries          Query[]
+  violations       Violation[]
+  lastQueryDate    DateTime?
+  nextQueryDueDate DateTime?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+}
+
+model Consent {
+  id          String   @id @default(cuid())
+  driverId    String
+  driver      Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade)
+  type        String   // "LIMITED" or "FULL"
+  status      String   // "ACTIVE", "EXPIRED", "REVOKED"
+  validUntil  DateTime?
+  documentUrl String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Query {
+  id        String   @id @default(cuid())
+  companyId String
+  company   Company  @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  driverId  String
+  driver    Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade)
+  type        String   // "LIMITED" or "FULL"
+  status      String   // "PENDING", "COMPLETED", "PROHIBITED", "ELIGIBLE"
+  queryDate   DateTime @default(now())
+  result      String?
+  documentUrl String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Violation {
+  id            String         @id @default(cuid())
+  driverId      String
+  driver        Driver         @relation(fields: [driverId], references: [id], onDelete: Cascade)
+  violationDate DateTime
+  violationType String         // e.g., "POSITIVE_DRUG", "POSITIVE_ALCOHOL", "REFUSAL"
+  reportedBy    String         // Who reported it
+  status        String         // e.g., "PENDING_RTD", "RTD_ELIGIBLE", "CLEARED"
+  notes         String?
+  followUpTests FollowUpTest[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model FollowUpTest {
+  id          String    @id @default(cuid())
+  violationId String
+  violation   Violation @relation(fields: [violationId], references: [id], onDelete: Cascade)
+  dueDate     DateTime
+  status      String    // e.g., "PENDING", "COMPLETED", "MISSED"
+  result      String?   // e.g., "NEGATIVE", "POSITIVE"
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model SystemSettings {
+  id                String   @id @default("default")
+  notificationEmail String?
+  updatedAt         DateTime @updatedAt
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // bcrypt hashed
+  name      String
+  role      String   @default("VIEWER") // "ADMIN" or "VIEWER"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
