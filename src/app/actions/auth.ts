@@ -45,28 +45,33 @@ async function getClientIp(): Promise<string> {
 }
 
 async function checkRateLimit(email: string): Promise<{ locked: boolean; minutesLeft?: number }> {
-    const cutoff = new Date(Date.now() - LOCKOUT_DURATION_MIN * 60 * 1000);
+    try {
+        const cutoff = new Date(Date.now() - LOCKOUT_DURATION_MIN * 60 * 1000);
 
-    const recentAttempts = await prisma.loginAttempt.findMany({
-        where: {
-            email,
-            success: false,
-            createdAt: { gte: cutoff },
-        },
-        orderBy: { createdAt: "desc" },
-    });
+        const recentAttempts = await prisma.loginAttempt.findMany({
+            where: {
+                email,
+                success: false,
+                createdAt: { gte: cutoff },
+            },
+            orderBy: { createdAt: "desc" },
+        });
 
-    if (recentAttempts.length >= MAX_LOGIN_ATTEMPTS) {
-        const lastAttempt = recentAttempts[0];
-        const unlockTime = new Date(lastAttempt.createdAt.getTime() + LOCKOUT_DURATION_MIN * 60 * 1000);
-        const minutesLeft = Math.ceil((unlockTime.getTime() - Date.now()) / 60000);
+        if (recentAttempts.length >= MAX_LOGIN_ATTEMPTS) {
+            const lastAttempt = recentAttempts[0];
+            const unlockTime = new Date(lastAttempt.createdAt.getTime() + LOCKOUT_DURATION_MIN * 60 * 1000);
+            const minutesLeft = Math.ceil((unlockTime.getTime() - Date.now()) / 60000);
 
-        if (minutesLeft > 0) {
-            return { locked: true, minutesLeft };
+            if (minutesLeft > 0) {
+                return { locked: true, minutesLeft };
+            }
         }
-    }
 
-    return { locked: false };
+        return { locked: false };
+    } catch (e) {
+        console.error("Rate limit check failed (table may not exist yet):", e);
+        return { locked: false }; // Allow login if rate limiting fails
+    }
 }
 
 async function recordLoginAttempt(email: string, success: boolean) {
