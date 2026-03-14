@@ -54,6 +54,8 @@ export async function middleware(request: NextRequest) {
     // Skip middleware for API cron routes (they use CRON_SECRET), static files, and Next.js internals
     if (
         pathname.startsWith("/api/cron") ||
+        pathname.startsWith("/api/migrate") ||
+        pathname.startsWith("/api/export") ||
         pathname.startsWith("/_next") ||
         pathname.startsWith("/favicon") ||
         pathname.endsWith(".ico") ||
