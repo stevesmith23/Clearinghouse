@@ -3,6 +3,8 @@
 import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
 
+import { IdleLogout } from "./IdleLogout";
+
 interface SidebarWrapperProps {
     session: { role: string; name: string } | null;
     children: React.ReactNode;
@@ -22,6 +24,7 @@ export default function SidebarWrapper({ session, children }: SidebarWrapperProp
             <main className="flex-1 overflow-y-auto scroll-smooth">
                 {children}
             </main>
+            <IdleLogout />
         </div>
     );
 }

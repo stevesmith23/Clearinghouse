@@ -107,6 +107,23 @@ const tables = [
         "updatedAt" DATETIME NOT NULL
     )`,
     `CREATE UNIQUE INDEX IF NOT EXISTS "User_email_key" ON "User"("email")`,
+    `CREATE TABLE IF NOT EXISTS "AuditLog" (
+        "id" TEXT NOT NULL PRIMARY KEY,
+        "userId" TEXT NOT NULL,
+        "userName" TEXT NOT NULL,
+        "action" TEXT NOT NULL,
+        "target" TEXT,
+        "details" TEXT,
+        "ipAddress" TEXT,
+        "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )`,
+    `CREATE TABLE IF NOT EXISTS "LoginAttempt" (
+        "id" TEXT NOT NULL PRIMARY KEY,
+        "email" TEXT NOT NULL,
+        "success" BOOLEAN NOT NULL,
+        "ipAddress" TEXT,
+        "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    )`,
 ];
 
 async function main() {

@@ -117,3 +117,21 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  userName  String
+  action    String   // e.g., "LOGIN", "VIEW_DRIVER", "EXPORT_DATA", "CREATE_USER", "DELETE_USER"
+  target    String?  // e.g., "driver:cm123", "company:cm456"
+  details   String?  // Additional context
+  ipAddress String?
+  createdAt DateTime @default(now())
+}
+
+model LoginAttempt {
+  id        String   @id @default(cuid())
+  email     String
+  success   Boolean
+  ipAddress String?
+  createdAt DateTime @default(now())
+}
