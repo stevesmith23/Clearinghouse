@@ -14,6 +14,7 @@ model Company {
   name         String
   dotNumber    String?
   email        String?
+  additionalEmails String?  // Comma-separated additional DER emails
   phone        String?
   queryBalance         Int       @default(0)
   lastBulkQueryDate    DateTime?

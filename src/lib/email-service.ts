@@ -1,16 +1,18 @@
 import nodemailer from 'nodemailer';
+import * as fs from 'fs';
+import * as path from 'path';
 
 const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
     port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_SECURE === 'true', // true for 465, false for other ports
+    secure: process.env.SMTP_SECURE === 'true',
     auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
     },
 });
 
-export async function sendProhibitedAlert(driverName: string, companyName: string, employerEmail: string | null) {
+export async function sendProhibitedAlert(driverName: string, companyName: string, employerEmail: string | null, requiresFullQuery: boolean = false) {
     const internalEmail = process.env.NOTIFICATION_EMAIL || process.env.SMTP_USER;
     const fromAddress = process.env.SMTP_FROM || process.env.SMTP_USER || '"Clearinghouse System" <noreply@clearinghousegroup.com>';
 
@@ -21,6 +23,10 @@ export async function sendProhibitedAlert(driverName: string, companyName: strin
 
     try {
         // 1. Send Internal Alert
+        const fullQueryNote = requiresFullQuery
+            ? `<li><strong style="color: #dc2626;">⚠️ This was a LIMITED query — a FULL query must now be conducted on this driver.</strong></li>`
+            : '';
+
         const internalHtml = `
             <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ccc; max-width: 600px;">
                 <h2 style="color: #dc2626; margin-bottom: 20px;">CRITICAL: Prohibited Driver Logged</h2>
@@ -28,6 +34,7 @@ export async function sendProhibitedAlert(driverName: string, companyName: strin
                 <ul style="background-color: #fef2f2; padding: 15px 15px 15px 35px; border-radius: 5px;">
                     <li><strong>Driver:</strong> ${driverName}</li>
                     <li><strong>Company:</strong> ${companyName}</li>
+                    ${fullQueryNote}
                 </ul>
                 <p style="margin-top: 20px;">The system has automatically generated a violation record for this driver. They must immediately be pulled from safety-sensitive functions.</p>
                 <p>Please log into the admin dashboard to review the driver's profile and begin tracking the RTD progression.</p>
@@ -43,6 +50,12 @@ export async function sendProhibitedAlert(driverName: string, companyName: strin
 
         // 2. Send Employer Notification (if email exists)
         if (employerEmail) {
+            const fullQueryWarning = requiresFullQuery
+                ? `<div style="background-color: #fefce8; padding: 15px; border-left: 4px solid #eab308; margin: 20px 0;">
+                     <p style="margin: 0; font-size: 14px; color: #854d0e;"><strong>⚠️ FULL QUERY REQUIRED:</strong> Because this driver was found Prohibited through a <em>Limited (annual) query</em>, federal regulations require that a <strong>Full Query</strong> must now be conducted on this driver. Please contact us to initiate this process.</p>
+                   </div>`
+                : '';
+
             const employerHtml = `
                 <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #143A82; max-width: 600px; line-height: 1.5;">
                     <h2 style="color: #143A82; border-bottom: 2px solid #3E91DE; padding-bottom: 10px;">IMPORTANT CLEARINGHOUSE NOTICE</h2>
@@ -51,6 +64,8 @@ export async function sendProhibitedAlert(driverName: string, companyName: strin
                     
                     <h3 style="color: #dc2626;">What does "Prohibited" mean?</h3>
                     <p>A "Prohibited" status means that this driver has a recorded drug or alcohol violation in the FMCSA Clearinghouse (such as a positive test result or a refusal to test) and has <strong>not</strong> completed the required Return-to-Duty (RTD) process.</p>
+                    
+                    ${fullQueryWarning}
                     
                     <h3 style="color: #dc2626;">IMMEDIATE ACTION REQUIRED</h3>
                     <p>Under federal regulations (49 CFR Part 382.501), you must <strong>immediately remove ${driverName} from all safety-sensitive functions</strong>, which includes operating a Commercial Motor Vehicle (CMV).</p>
@@ -146,17 +161,22 @@ export async function sendUpdateRosterEmail(companyName: string, employerEmail: 
                 <h2 style="color: #143A82; border-bottom: 2px solid #77C7EC; padding-bottom: 10px;">Action Required: Update Driver Roster</h2>
                 <p>Dear ${companyName},</p>
                 <p>We are preparing to run your annual FMCSA Clearinghouse queries.</p>
-                <p>We use your current driver roster in the <strong>i3</strong> system to determine which drivers need to be queried.</p>
+                <p><strong>To ensure accuracy, we need your current driver roster.</strong> We use this roster to determine which drivers need to be queried in the FMCSA Clearinghouse. An outdated roster can result in missed queries or unnecessary charges.</p>
                 
-                <h3 style="color: #3E91DE;">Please complete the following step:</h3>
-                <div style="margin-bottom: 15px;">
-                    <strong>Update your i3 Roster:</strong><br>
-                    Please review and update your active driver roster in the i3 system Immediately. Ensure any newly hired drivers are added, and any terminated drivers are removed.
+                <h3 style="color: #3E91DE;">What you need to do:</h3>
+                <ol style="line-height: 1.8;">
+                    <li><strong>Download the attached roster template(s)</strong> that apply to your company.</li>
+                    <li><strong>Fill in your current active drivers</strong> — add any new hires and remove any terminated drivers.</li>
+                    <li><strong>Email the completed roster back to us</strong> as soon as possible.</li>
+                </ol>
+                
+                <div style="background-color: #f0f9ff; padding: 15px; border-left: 4px solid #3E91DE; margin: 20px 0;">
+                    <p style="margin: 0; font-size: 14px; color: #1e40af;"><strong>📎 Roster templates are attached to this email.</strong> Please use the template that matches your company's testing program (FMCSA DOT, Non-FMCSA DOT, or Non-DOT).</p>
                 </div>
                 
-                <p>We must have an accurate roster in i3 before we run the annual queries to maintain your compliance.</p>
+                <p>We must have an accurate roster before we can run the annual queries to maintain your compliance.</p>
                 
-                <p>Thank you.</p>
+                <p>Thank you for your prompt attention.</p>
                 <p style="margin-top: 30px;">
                     Sincerely,<br>
                     <strong>The Compliance Team</strong><br>
@@ -165,11 +185,30 @@ export async function sendUpdateRosterEmail(companyName: string, employerEmail: 
             </div>
         `;
 
+        // Attach roster template files
+        const sheetsDir = path.join(process.cwd(), 'sheets');
+        const attachments: { filename: string; path: string }[] = [];
+
+        try {
+            if (fs.existsSync(sheetsDir)) {
+                const files = fs.readdirSync(sheetsDir).filter(f => f.endsWith('.xlsx') || f.endsWith('.xls') || f.endsWith('.csv'));
+                for (const file of files) {
+                    attachments.push({
+                        filename: file,
+                        path: path.join(sheetsDir, file),
+                    });
+                }
+            }
+        } catch (attachErr) {
+            console.warn("Could not load roster attachments:", attachErr);
+        }
+
         await transporter.sendMail({
             from: fromAddress,
             to: employerEmail,
-            subject: `Action Required: Update i3 Roster for ${companyName}`,
+            subject: `Action Required: Update Driver Roster for ${companyName}`,
             html: html,
+            attachments,
         });
 
         return { success: true, message: "Update Roster email sent successfully." };

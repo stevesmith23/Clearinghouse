@@ -105,7 +105,7 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
                             <Link href={`/queries/new?driverId=${driver.id}&companyId=${driver.companyId}`}>
                                 <Button className="w-full justify-start text-left h-12">
                                     <FileCheck className="w-4 h-4 mr-3" />
-                                    Run New ClearinghouseGroup Query
+                                    Log New Clearinghouse Query
                                 </Button>
                             </Link>
                         </div>

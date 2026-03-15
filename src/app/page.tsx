@@ -40,10 +40,10 @@ export default async function Home() {
   const actionsNeeded = expiringConsents + (activeViolationsCount > 0 ? 1 : 0) + (expiringBulkQueriesCount > 0 ? 1 : 0) + (shortfallCount > 0 ? 1 : 0);
 
   const stats = [
-    { title: "Total Companies", value: companyCount, icon: Building2, trend: "Active clients", trendUp: true },
-    { title: "Monitored Drivers", value: driverCount, icon: Users, trend: "Registered", trendUp: true },
-    { title: "Pending Queries", value: queryCount, icon: FileSearch, trend: "Awaiting results", trendUp: false },
-    { title: "Action Needed", value: actionsNeeded, icon: AlertCircle, trend: "Requires attention", trendUp: false, alert: actionsNeeded > 0, href: "#alerts" },
+    { title: "Total Companies", value: companyCount, icon: Building2, trend: "Active clients", trendUp: true, href: "/companies" },
+    { title: "Monitored Drivers", value: driverCount, icon: Users, trend: "Registered", trendUp: true, href: "/drivers" },
+    { title: "Pending Queries", value: queryCount, icon: FileSearch, trend: "Awaiting results", trendUp: false, href: "/queries" },
+    { title: "Action Needed", value: actionsNeeded, icon: AlertCircle, trend: "Requires attention", trendUp: false, alert: actionsNeeded > 0, href: "/alerts" },
   ];
 
   const recentQueries = await prisma.query.findMany({

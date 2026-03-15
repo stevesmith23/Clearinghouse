@@ -15,6 +15,7 @@ import {
     LogOut,
     Shield,
     Eye,
+    AlertCircle,
 } from "lucide-react";
 import { logout } from "@/app/actions/auth";
 
@@ -28,6 +29,7 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
 
     const navItems = [
         { name: "Dashboard", href: "/", icon: LayoutDashboard, adminOnly: false },
+        { name: "Alerts", href: "/alerts", icon: AlertCircle, adminOnly: false },
         { name: "Companies", href: "/companies", icon: Building2, adminOnly: false },
         { name: "Drivers", href: "/drivers", icon: Users, adminOnly: false },
         { name: "Pre-Employment", href: "/pre-employment", icon: UserCheck, adminOnly: false },

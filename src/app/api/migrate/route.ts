@@ -45,6 +45,10 @@ export async function GET(request: Request) {
                 "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
             )`,
         },
+        {
+            name: "Company.additionalEmails",
+            sql: `ALTER TABLE "Company" ADD COLUMN "additionalEmails" TEXT`,
+        },
     ];
 
     for (const table of tables) {

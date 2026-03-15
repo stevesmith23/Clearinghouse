@@ -175,7 +175,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
                             <CardTitle>Recent Queries</CardTitle>
                             <Link href={`/queries/new?companyId=${company.id}`}>
                                 <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                                    <span className="sr-only">Run Query</span>
+                                    <span className="sr-only">Log Query</span>
                                     <FileSearch className="h-4 w-4" />
                                 </Button>
                             </Link>

@@ -27,7 +27,7 @@ export default async function QueriesPage() {
                 <Link href="/queries/new">
                     <Button className="shadow-sm">
                         <Plus className="w-4 h-4 mr-1" />
-                        Run New Query
+                        Log New Query
                     </Button>
                 </Link>
             </div>
@@ -61,7 +61,7 @@ export default async function QueriesPage() {
                                 <TableRow>
                                     <TableCell colSpan={6} className="text-center py-10 text-[#3E91DE]/70">
                                         <FileSearch className="w-8 h-8 mx-auto text-[#77C7EC] mb-3 opacity-50" />
-                                        No queries found. Click "Run New Query" to get started.
+                                        No queries found. Click "Log New Query" to get started.
                                     </TableCell>
                                 </TableRow>
                             ) : (

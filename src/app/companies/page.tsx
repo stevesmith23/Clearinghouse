@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
-import { Plus } from "lucide-react"
+import { Plus, Upload } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { CompaniesTable } from "./CompaniesTable"
 
@@ -23,12 +23,20 @@ export default async function CompaniesPage() {
                     <h1 className="text-3xl font-bold tracking-tight text-[#143A82]">Companies</h1>
                     <p className="text-[#3E91DE] mt-1">Manage all TPA clients and their query balances.</p>
                 </div>
-                <Link href="/companies/new">
-                    <Button className="shadow-sm">
-                        <Plus className="w-4 h-4 mr-1" />
-                        Add Company
-                    </Button>
-                </Link>
+                <div className="flex gap-2">
+                    <Link href="/companies/import">
+                        <Button variant="outline" className="shadow-sm">
+                            <Upload className="w-4 h-4 mr-1" />
+                            Import from Spreadsheet
+                        </Button>
+                    </Link>
+                    <Link href="/companies/new">
+                        <Button className="shadow-sm">
+                            <Plus className="w-4 h-4 mr-1" />
+                            Add Company
+                        </Button>
+                    </Link>
+                </div>
             </div>
 
             <CompaniesTable companies={companies} />

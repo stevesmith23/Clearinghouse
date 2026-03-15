@@ -9,6 +9,7 @@ export async function createCompany(formData: FormData) {
     const name = formData.get("name") as string
     const dotNumber = formData.get("dotNumber") as string
     const email = formData.get("email") as string
+    const additionalEmails = formData.get("additionalEmails") as string
     const phone = formData.get("phone") as string
     const queryBalanceStr = formData.get("queryBalance") as string
     const queryBalance = queryBalanceStr ? parseInt(queryBalanceStr, 10) : 0
@@ -17,11 +18,17 @@ export async function createCompany(formData: FormData) {
         throw new Error("Company name is required")
     }
 
+    // Convert newline-separated emails to comma-separated
+    const cleanedAdditionalEmails = additionalEmails
+        ? additionalEmails.split(/[\n,]/).map(e => e.trim().toLowerCase()).filter(Boolean).join(",")
+        : null;
+
     const company = await prisma.company.create({
         data: {
             name,
             dotNumber: dotNumber || null,
             email: email || null,
+            additionalEmails: cleanedAdditionalEmails,
             phone: phone || null,
             queryBalance,
         },
@@ -36,12 +43,17 @@ export async function updateCompany(id: string, formData: FormData) {
     const name = formData.get("name") as string
     const dotNumber = formData.get("dotNumber") as string
     const email = formData.get("email") as string
+    const additionalEmails = formData.get("additionalEmails") as string
     const phone = formData.get("phone") as string
     const queryBalanceStr = formData.get("queryBalance") as string
 
     if (!id || !name) throw new Error("Missing ID or Company Name");
 
-    const updateData: any = { name, dotNumber, email, phone };
+    const cleanedAdditionalEmails = additionalEmails
+        ? additionalEmails.split(/[\n,]/).map(e => e.trim().toLowerCase()).filter(Boolean).join(",")
+        : null;
+
+    const updateData: any = { name, dotNumber, email, phone, additionalEmails: cleanedAdditionalEmails };
     if (queryBalanceStr !== null && queryBalanceStr !== undefined && queryBalanceStr !== "") {
         updateData.queryBalance = parseInt(queryBalanceStr, 10);
     }

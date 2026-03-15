@@ -92,7 +92,7 @@ export default async function EditCompanyPage({ searchParams }: { searchParams: 
 
                         <div className="space-y-2">
                             <label htmlFor="email" className="text-sm font-medium text-slate-700">
-                                Email Address
+                                Primary DER Email
                             </label>
                             <input
                                 id="email"
@@ -100,8 +100,23 @@ export default async function EditCompanyPage({ searchParams }: { searchParams: 
                                 type="email"
                                 defaultValue={company.email || ""}
                                 className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
-                                placeholder="contact@acmetransport.com"
+                                placeholder="primary@company.com"
                             />
+                        </div>
+
+                        <div className="space-y-2">
+                            <label htmlFor="additionalEmails" className="text-sm font-medium text-slate-700">
+                                Additional DER Emails
+                            </label>
+                            <textarea
+                                id="additionalEmails"
+                                name="additionalEmails"
+                                defaultValue={(company as any).additionalEmails?.split(",").join("\n") || ""}
+                                placeholder="Enter additional email addresses, one per line"
+                                rows={3}
+                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] resize-none text-sm"
+                            />
+                            <p className="text-xs text-slate-500">For companies with multiple DERs. One email per line.</p>
                         </div>
 
                         <div className="space-y-2">

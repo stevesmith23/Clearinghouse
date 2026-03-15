@@ -95,17 +95,7 @@ export default async function NewQueryPage({ searchParams }: { searchParams: Pro
                                 </div>
                             </div>
 
-                            <div className="grid gap-2 pt-4 border-t border-[#77C7EC]/20 mt-4">
-                                <Label htmlFor="documentUrl">FMCSA Result Document URL (Optional)</Label>
-                                <Input
-                                    type="url"
-                                    id="documentUrl"
-                                    name="documentUrl"
-                                    placeholder="https://link-to-fmcsa-pdf-result..."
-                                    className="border-[#77C7EC]/40"
-                                />
-                                <p className="text-xs text-[#3E91DE]/70">For audit readiness, paste a link to the official FMCSA query result PDF.</p>
-                            </div>
+
                         </div>
 
                         <div className="flex justify-end gap-3 pt-6 border-t border-[#77C7EC]/20">

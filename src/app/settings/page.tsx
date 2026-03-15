@@ -33,20 +33,20 @@ export default async function SettingsPage() {
                     <form action={updateSettings}>
                         <CardContent className="space-y-4">
                             <div className="space-y-2">
-                                <Label htmlFor="notificationEmail" className="font-semibold text-[#143A82]">System Alert Email</Label>
+                                <Label htmlFor="notificationEmail" className="font-semibold text-[#143A82]">System Alert Emails</Label>
                                 <div className="relative">
-                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                                    <Input
+                                    <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                                    <textarea
                                         id="notificationEmail"
                                         name="notificationEmail"
-                                        type="email"
-                                        placeholder="e.g., admin@clearinghousegroup.com"
+                                        placeholder={"admin@clearinghousegroup.com\nmanager@clearinghousegroup.com"}
                                         defaultValue={settings.notificationEmail || ""}
-                                        className="pl-9"
+                                        rows={3}
+                                        className="w-full pl-9 pr-4 py-2 rounded-lg border border-[#77C7EC]/40 bg-white text-sm text-[#143A82] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#3E91DE]/40 focus:border-[#3E91DE] transition-all resize-none"
                                     />
                                 </div>
                                 <p className="text-xs text-slate-500">
-                                    All high-priority alerts (like the 30-day Bulk Query approaching warnings and prohibited driver RTD alerts) will be explicitly routed here. If left blank, it defaults to your SMTP User.
+                                    Enter one email per line. All high-priority alerts (bulk query warnings, prohibited driver alerts) will be sent to all listed addresses.
                                 </p>
                             </div>
                         </CardContent>

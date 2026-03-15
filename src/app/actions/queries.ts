@@ -8,8 +8,7 @@ import { sendProhibitedAlert } from "@/lib/email-service"
 export async function createQuery(formData: FormData) {
     const driverId = formData.get("driverId") as string
     const type = formData.get("type") as string // LIMITED or FULL
-    const status = formData.get("status") as string // PENDING, COMPLETED, PROHIBITED, ELIGIBLE
-    const documentUrl = formData.get("documentUrl") as string | null // Optional PDF Link
+    const status = formData.get("status") as string // PROHIBITED or ELIGIBLE
 
     if (!driverId || !type || !status) {
         throw new Error("Missing required fields")
@@ -22,7 +21,7 @@ export async function createQuery(formData: FormData) {
             companyId: true,
             firstName: true,
             lastName: true,
-            company: { select: { name: true, email: true } }
+            company: { select: { name: true, email: true, additionalEmails: true } }
         }
     })
 
@@ -38,7 +37,6 @@ export async function createQuery(formData: FormData) {
                 driverId,
                 type,
                 status,
-                documentUrl: documentUrl ? documentUrl : null,
                 queryDate: new Date(),
             }
         })
@@ -51,7 +49,7 @@ export async function createQuery(formData: FormData) {
 
         // 3. Update driver dates
         const nextDueDate = new Date()
-        nextDueDate.setFullYear(nextDueDate.getFullYear() + 1) // Annual queries due in 1 year
+        nextDueDate.setFullYear(nextDueDate.getFullYear() + 1)
 
         await tx.driver.update({
             where: { id: driverId },
@@ -61,20 +59,24 @@ export async function createQuery(formData: FormData) {
             }
         })
 
-        // 4. violation automatically created if PROHIBITED
+        // 4. Violation automatically created if PROHIBITED
         if (status === "PROHIBITED") {
             await tx.violation.create({
                 data: {
                     driverId,
                     violationDate: new Date(),
                     violationType: type === "FULL" ? "PRE_EMPLOYMENT_PROHIBITED" : "ANNUAL_QUERY_PROHIBITED",
-                    reportedBy: "FMCSA ClearinghouseGroup - Manual Entry",
+                    reportedBy: "FMCSA Clearinghouse - Manual Entry",
                     status: "PENDING_RTD"
                 }
             })
-            // Dispatch async email alerts
+
+            // Dispatch email alerts — include full query reminder if it was a LIMITED query
             const fullName = `${driver.firstName} ${driver.lastName}`;
-            sendProhibitedAlert(fullName, driver.company.name, driver.company.email).catch(err => {
+            const allEmails = [driver.company.email, ...(driver.company.additionalEmails?.split(",") || [])].filter(Boolean) as string[];
+            const requiresFullQuery = type === "LIMITED";
+
+            sendProhibitedAlert(fullName, driver.company.name, allEmails.join(","), requiresFullQuery).catch(err => {
                 console.error("Failed to trigger prohibited alert pipeline:", err);
             });
         }
@@ -85,3 +87,4 @@ export async function createQuery(formData: FormData) {
     revalidatePath(`/drivers/${driverId}`)
     redirect("/queries")
 }
+

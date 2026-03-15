@@ -42,13 +42,25 @@ export default function NewCompanyPage() {
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div className="grid gap-2">
-                                    <Label htmlFor="email">Primary Email</Label>
-                                    <Input id="email" name="email" type="email" placeholder="contact@company.com" />
+                                    <Label htmlFor="email">Primary DER Email</Label>
+                                    <Input id="email" name="email" type="email" placeholder="primary@company.com" />
                                 </div>
                                 <div className="grid gap-2">
                                     <Label htmlFor="phone">Phone Number</Label>
                                     <Input id="phone" name="phone" type="tel" placeholder="(555) 123-4567" />
                                 </div>
+                            </div>
+
+                            <div className="grid gap-2">
+                                <Label htmlFor="additionalEmails">Additional DER Emails</Label>
+                                <textarea
+                                    id="additionalEmails"
+                                    name="additionalEmails"
+                                    placeholder="Enter additional email addresses, one per line"
+                                    rows={3}
+                                    className="w-full px-4 py-2 rounded-lg border border-[#77C7EC]/40 bg-white text-sm text-[#143A82] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#3E91DE]/40 focus:border-[#3E91DE] transition-all resize-none"
+                                />
+                                <p className="text-xs text-[#3E91DE]/70">For companies with multiple DERs. One email per line.</p>
                             </div>
 
                             <div className="grid gap-2 border-t border-[#77C7EC]/20 pt-4 mt-2">
