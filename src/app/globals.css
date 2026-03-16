@@ -146,3 +146,31 @@
 .dark ::-webkit-scrollbar-thumb:hover {
   background: #64748b;
 }
+
+/* ── Mobile Responsive Utilities ── */
+
+/* Tables: horizontal scroll on mobile */
+@media (max-width: 768px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Reduce page padding on mobile */
+  .p-8 { padding: 1rem; }
+  .p-12 { padding: 1.5rem; }
+  .sm\:p-12 { padding: 1.5rem; }
+  /* Stack grid columns on mobile */
+  .grid-cols-2 { grid-template-columns: 1fr; }
+  .grid-cols-3 { grid-template-columns: 1fr; }
+  .grid-cols-4 { grid-template-columns: 1fr 1fr; }
+  /* Stat cards: 2 per row on mobile */
+  .grid-cols-4 > * { min-width: 0; }
+}
+
+/* Small phones: even tighter */
+@media (max-width: 480px) {
+  .grid-cols-4 { grid-template-columns: 1fr; }
+  .text-3xl { font-size: 1.5rem; }
+  .text-2xl { font-size: 1.25rem; }
+}

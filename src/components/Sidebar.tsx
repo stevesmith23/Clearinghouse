@@ -26,9 +26,10 @@ import { logout } from "@/app/actions/auth";
 interface SidebarProps {
     userRole: string;
     userName: string;
+    onNavigate?: () => void;
 }
 
-export default function Sidebar({ userRole, userName }: SidebarProps) {
+export default function Sidebar({ userRole, userName, onNavigate }: SidebarProps) {
     const pathname = usePathname();
 
     const navItems = [
@@ -83,6 +84,7 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
                         <Link
                             key={item.href}
                             href={item.href}
+                            onClick={onNavigate}
                             className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ${isActive
                                     ? "bg-[#77C7EC]/10 dark:bg-[#3E91DE]/15 text-[#143A82] dark:text-white shadow-sm border border-[#77C7EC]/30 dark:border-[#3E91DE]/30"
                                     : "text-slate-600 dark:text-slate-400 hover:bg-[#77C7EC]/5 dark:hover:bg-white/5 hover:text-[#3E91DE]"

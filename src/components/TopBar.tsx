@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Search, Moon, Sun, Bell, X, Building2, Users, FileSearch, ExternalLink } from "lucide-react";
+import { Search, Moon, Sun, Bell, X, Building2, Users, FileSearch, ExternalLink, Menu } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,7 @@ interface Notification {
     time: string;
 }
 
-export default function TopBar() {
+export default function TopBar({ onMenuClick }: { onMenuClick?: () => void }) {
     const { theme, toggleTheme } = useTheme();
     const [searchOpen, setSearchOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
@@ -115,16 +115,29 @@ export default function TopBar() {
 
     return (
         <>
-            <div className="h-14 border-b border-[#77C7EC]/20 dark:border-white/10 bg-white dark:bg-slate-900 flex items-center justify-between px-6 shrink-0 transition-colors">
-                {/* Search trigger */}
-                <button
-                    onClick={() => { setSearchOpen(true); setTimeout(() => inputRef.current?.focus(), 100); }}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 hover:border-[#3E91DE] text-slate-400 dark:text-slate-500 text-sm transition-colors bg-slate-50 dark:bg-slate-800 max-w-xs w-64"
-                >
-                    <Search className="w-4 h-4" />
-                    <span>Search everything...</span>
-                    <kbd className="ml-auto text-[10px] bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded font-mono">Ctrl+K</kbd>
-                </button>
+            <div className="h-14 border-b border-[#77C7EC]/20 dark:border-white/10 bg-white dark:bg-slate-900 flex items-center justify-between px-4 sm:px-6 shrink-0 transition-colors gap-2">
+                {/* Left side: hamburger + search */}
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                    {/* Hamburger menu — mobile only */}
+                    <button
+                        onClick={onMenuClick}
+                        className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors lg:hidden shrink-0"
+                        aria-label="Toggle menu"
+                    >
+                        <Menu className="w-5 h-5" />
+                    </button>
+
+                    {/* Search trigger */}
+                    <button
+                        onClick={() => { setSearchOpen(true); setTimeout(() => inputRef.current?.focus(), 100); }}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-white/10 hover:border-[#3E91DE] text-slate-400 dark:text-slate-500 text-sm transition-colors bg-slate-50 dark:bg-slate-800 w-full sm:w-64 sm:max-w-xs"
+                    >
+                        <Search className="w-4 h-4 shrink-0" />
+                        <span className="hidden sm:inline">Search everything...</span>
+                        <span className="sm:hidden">Search...</span>
+                        <kbd className="ml-auto text-[10px] bg-slate-200 dark:bg-slate-700 text-slate-500 dark:text-slate-400 px-1.5 py-0.5 rounded font-mono hidden sm:inline">Ctrl+K</kbd>
+                    </button>
+                </div>
 
                 {/* Right side */}
                 <div className="flex items-center gap-2">
@@ -151,7 +164,7 @@ export default function TopBar() {
 
                         {/* Notification dropdown */}
                         {notifOpen && (
-                            <div className="absolute right-0 top-full mt-2 w-96 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 z-50 overflow-hidden">
+                            <div className="absolute right-0 top-full mt-2 w-[calc(100vw-2rem)] sm:w-96 max-w-96 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 z-50 overflow-hidden">
                                 <div className="px-4 py-3 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between">
                                     <h3 className="font-bold text-sm text-[#143A82] dark:text-white">Notifications</h3>
                                     <span className="text-xs text-slate-400">{unreadCount} items</span>
@@ -200,7 +213,7 @@ export default function TopBar() {
                 <div className="fixed inset-0 z-50 flex items-start justify-center pt-[15vh] bg-black/50 backdrop-blur-sm" onClick={() => setSearchOpen(false)}>
                     <div
                         ref={searchRef}
-                        className="w-full max-w-lg bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden"
+                        className="w-full max-w-lg mx-4 bg-white dark:bg-slate-800 rounded-xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-100 dark:border-slate-700">
