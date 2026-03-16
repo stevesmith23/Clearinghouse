@@ -1,10 +1,6 @@
 import { prisma } from "@/lib/prisma"
-import Link from "next/link"
-import { ShieldAlert, Plus, Search, User, FileText, CheckCircle2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { ShieldAlert, CheckCircle2, Clock, AlertCircle } from "lucide-react"
+import RTDTimeline from "./RTDTimeline"
 
 export const dynamic = 'force-dynamic';
 
@@ -16,79 +12,87 @@ export default async function ViolationsPage() {
         }
     })
 
+    const activeCount = violations.filter(v => v.status === "PENDING_RTD").length;
+    const rtdEligibleCount = violations.filter(v => v.status === "RTD_ELIGIBLE").length;
+    const clearedCount = violations.filter(v => v.status === "CLEARED").length;
+    const totalCount = violations.length;
+
+    // Serialize dates for client component
+    const serializedViolations = violations.map(v => ({
+        ...v,
+        violationDate: v.violationDate.toISOString(),
+        removedFromDutyDate: v.removedFromDutyDate?.toISOString() || null,
+        sapInitialEvalDate: v.sapInitialEvalDate?.toISOString() || null,
+        treatmentCompletedDate: v.treatmentCompletedDate?.toISOString() || null,
+        sapFollowUpEvalDate: v.sapFollowUpEvalDate?.toISOString() || null,
+        rtdTestDate: v.rtdTestDate?.toISOString() || null,
+        rtdTestResult: v.rtdTestResult || null,
+        clearedDate: v.clearedDate?.toISOString() || null,
+        sapName: v.sapName || null,
+        sapPhone: v.sapPhone || null,
+        sapEmail: v.sapEmail || null,
+        createdAt: v.createdAt.toISOString(),
+        updatedAt: v.updatedAt.toISOString(),
+    }));
+
     return (
         <div className="p-8 sm:p-12 mb-20 bg-white min-h-full">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-[#143A82]">Violations & RTD</h1>
-                    <p className="text-[#3E91DE] mt-1">Monitor drivers with positive results or refusals, and track Return-To-Duty status.</p>
+                    <h1 className="text-3xl font-bold tracking-tight text-[#143A82] flex items-center gap-3">
+                        <ShieldAlert className="w-8 h-8 text-[#3E91DE]" />
+                        Violations & RTD Tracking
+                    </h1>
+                    <p className="text-[#3E91DE] mt-1">Monitor prohibited drivers and track their Return-to-Duty progress step by step.</p>
                 </div>
             </div>
 
-            <Card>
-                <CardHeader className="flex flex-row items-center justify-between pb-4">
-                    <CardTitle>Active Violations Record</CardTitle>
-                    <div className="relative w-64">
-                        <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-[#3E91DE]/50" />
-                        <Input
-                            type="search"
-                            placeholder="Search violations..."
-                            className="pl-8 bg-white"
-                        />
+            {/* Summary Cards */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+                <div className="bg-white border border-red-200 rounded-xl p-4 shadow-sm">
+                    <div className="flex items-center gap-2 mb-2">
+                        <AlertCircle className="w-4 h-4 text-red-500" />
+                        <span className="text-xs font-semibold text-red-600 uppercase tracking-wide">Pending RTD</span>
                     </div>
-                </CardHeader>
-                <CardContent className="p-0">
-                    <Table>
-                        <TableHeader>
-                            <TableRow>
-                                <TableHead>Driver</TableHead>
-                                <TableHead>Violation Date</TableHead>
-                                <TableHead>Type</TableHead>
-                                <TableHead>Reported By</TableHead>
-                                <TableHead className="text-right">Status</TableHead>
-                            </TableRow>
-                        </TableHeader>
-                        <TableBody>
-                            {violations.length === 0 ? (
-                                <TableRow>
-                                    <TableCell colSpan={5} className="text-center py-10 text-[#3E91DE]/70">
-                                        <ShieldAlert className="w-8 h-8 mx-auto text-[#77C7EC] mb-3 opacity-50" />
-                                        No violations found. That's a good thing!
-                                    </TableCell>
-                                </TableRow>
-                            ) : (
-                                violations.map((violation) => (
-                                    <TableRow key={violation.id}>
-                                        <TableCell className="font-medium text-[#143A82]">
-                                            <Link href={`/drivers/${violation.driver.id}`} className="flex items-center gap-1.5 hover:underline transition-colors">
-                                                <User className="w-3.5 h-3.5 text-[#3E91DE]" />
-                                                {violation.driver.lastName}, {violation.driver.firstName}
-                                            </Link>
-                                        </TableCell>
-                                        <TableCell>{new Date(violation.violationDate).toLocaleDateString()}</TableCell>
-                                        <TableCell>
-                                            <span className="text-xs bg-red-50 text-red-700 px-2 py-0.5 rounded font-medium">
-                                                {violation.violationType.replace(/_/g, ' ')}
-                                            </span>
-                                        </TableCell>
-                                        <TableCell className="text-[#3E91DE] text-sm">
-                                            {violation.reportedBy}
-                                        </TableCell>
-                                        <TableCell className="text-right">
-                                            <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${violation.status === 'CLEARED' ? 'bg-green-100 text-green-800' :
-                                                    violation.status === 'RTD_ELIGIBLE' ? 'bg-indigo-100 text-indigo-800' :
-                                                        'bg-red-100 text-red-800'
-                                                }`}>
-                                                {violation.status.replace(/_/g, ' ')}
-                                            </span>
-                                        </TableCell>
-                                    </TableRow>
-                                ))
-                            )}
-                        </TableBody>
-                    </Table>
-                </CardContent>
-            </Card>
+                    <p className="text-3xl font-bold text-red-700">{activeCount}</p>
+                </div>
+                <div className="bg-white border border-indigo-200 rounded-xl p-4 shadow-sm">
+                    <div className="flex items-center gap-2 mb-2">
+                        <Clock className="w-4 h-4 text-indigo-500" />
+                        <span className="text-xs font-semibold text-indigo-600 uppercase tracking-wide">RTD Eligible</span>
+                    </div>
+                    <p className="text-3xl font-bold text-indigo-700">{rtdEligibleCount}</p>
+                </div>
+                <div className="bg-white border border-emerald-200 rounded-xl p-4 shadow-sm">
+                    <div className="flex items-center gap-2 mb-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                        <span className="text-xs font-semibold text-emerald-600 uppercase tracking-wide">Cleared</span>
+                    </div>
+                    <p className="text-3xl font-bold text-emerald-700">{clearedCount}</p>
+                </div>
+                <div className="bg-white border border-[#77C7EC]/20 rounded-xl p-4 shadow-sm">
+                    <div className="flex items-center gap-2 mb-2">
+                        <ShieldAlert className="w-4 h-4 text-[#3E91DE]" />
+                        <span className="text-xs font-semibold text-[#3E91DE] uppercase tracking-wide">All-Time Total</span>
+                    </div>
+                    <p className="text-3xl font-bold text-[#143A82]">{totalCount}</p>
+                </div>
+            </div>
+
+            {/* Violations List with RTD Timelines */}
+            <div className="space-y-4">
+                {serializedViolations.length === 0 ? (
+                    <div className="text-center py-16 px-4 rounded-xl bg-slate-50 border border-dashed border-slate-200">
+                        <ShieldAlert className="w-12 h-12 text-[#77C7EC] mx-auto mb-4 opacity-50" />
+                        <h3 className="text-lg font-semibold text-[#143A82]">No Violations Found</h3>
+                        <p className="text-[#3E91DE]/70 text-sm mt-1">That's a good thing! When a prohibited query result is logged, violations will appear here with full RTD tracking.</p>
+                    </div>
+                ) : (
+                    serializedViolations.map((violation) => (
+                        <RTDTimeline key={violation.id} violation={violation} />
+                    ))
+                )}
+            </div>
         </div>
     )
 }

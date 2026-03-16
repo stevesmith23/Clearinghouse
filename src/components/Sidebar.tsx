@@ -16,6 +16,10 @@ import {
     Shield,
     Eye,
     AlertCircle,
+    HelpCircle,
+    ShieldAlert,
+    History,
+    CalendarDays,
 } from "lucide-react";
 import { logout } from "@/app/actions/auth";
 
@@ -35,9 +39,13 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
         { name: "Pre-Employment", href: "/pre-employment", icon: UserCheck, adminOnly: false },
         { name: "Consents", href: "/consents", icon: ClipboardCheck, adminOnly: false },
         { name: "Queries", href: "/queries", icon: FileSearch, adminOnly: false },
+        { name: "Violations & RTD", href: "/violations", icon: ShieldAlert, adminOnly: false },
+        { name: "Activity Log", href: "/activity", icon: History, adminOnly: false },
+        { name: "Calendar", href: "/calendar", icon: CalendarDays, adminOnly: false },
         { name: "Billing", href: "/billing", icon: FileSpreadsheet, adminOnly: true },
         { name: "Reports", href: "/reports", icon: BarChart3, adminOnly: true },
         { name: "Settings", href: "/settings", icon: Settings, adminOnly: true },
+        { name: "Help & Resources", href: "/help", icon: HelpCircle, adminOnly: false },
     ];
 
     const visibleItems = navItems.filter(
@@ -45,8 +53,8 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
     );
 
     return (
-        <div className="flex h-screen w-64 flex-col bg-white border-r border-[#77C7EC]/20 text-slate-700 font-sans transition-all duration-300 shadow-sm">
-            <div className="flex h-16 items-center px-6 border-b border-[#77C7EC]/20">
+        <div className="flex h-screen w-64 flex-col bg-white dark:bg-slate-900 border-r border-[#77C7EC]/20 dark:border-white/10 text-slate-700 dark:text-slate-300 font-sans transition-all duration-300 shadow-sm">
+            <div className="flex h-16 items-center px-6 border-b border-[#77C7EC]/20 dark:border-white/10">
                 <div className="flex items-center gap-2 text-xl font-bold text-slate-800 tracking-tight">
                     <svg
                         width="32"
@@ -60,7 +68,7 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
                         <polygon points="31,80 31,30 66,15 66,65" fill="#3E91DE" />
                         <polygon points="56,95 56,45 91,30 91,80" fill="#143A82" />
                     </svg>
-                    <span className="-ml-1 text-[#143A82]">
+                    <span className="-ml-1 text-[#143A82] dark:text-white">
                         Clearinghouse
                         <span className="font-semibold text-[#3E91DE]">Group</span>
                     </span>
@@ -76,8 +84,8 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
                             key={item.href}
                             href={item.href}
                             className={`flex items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium transition-all duration-200 ${isActive
-                                    ? "bg-[#77C7EC]/10 text-[#143A82] shadow-sm border border-[#77C7EC]/30"
-                                    : "text-slate-600 hover:bg-[#77C7EC]/5 hover:text-[#3E91DE]"
+                                    ? "bg-[#77C7EC]/10 dark:bg-[#3E91DE]/15 text-[#143A82] dark:text-white shadow-sm border border-[#77C7EC]/30 dark:border-[#3E91DE]/30"
+                                    : "text-slate-600 dark:text-slate-400 hover:bg-[#77C7EC]/5 dark:hover:bg-white/5 hover:text-[#3E91DE]"
                                 }`}
                         >
                             <item.icon className="h-5 w-5" />
@@ -86,11 +94,11 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
                     );
                 })}
             </nav>
-            <div className="p-4 border-t border-[#77C7EC]/20 space-y-3">
+            <div className="p-4 border-t border-[#77C7EC]/20 dark:border-white/10 space-y-3">
                 <div className="bg-gradient-to-br from-[#77C7EC]/5 to-[#3E91DE]/5 border border-[#77C7EC]/20 rounded-lg p-4 text-xs">
                     <p className="text-[#3E91DE] mb-1 font-medium">ClearinghouseGroup</p>
                     <div className="flex items-center justify-between">
-                        <p className="font-semibold text-[#143A82]">{userName}</p>
+                        <p className="font-semibold text-[#143A82] dark:text-white">{userName}</p>
                         <span
                             className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${userRole === "ADMIN"
                                     ? "bg-[#3E91DE]/15 text-[#143A82]"
@@ -112,7 +120,7 @@ export default function Sidebar({ userRole, userName }: SidebarProps) {
                 <form action={logout}>
                     <button
                         type="submit"
-                        className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-medium text-slate-500 hover:text-red-600 hover:bg-red-50 rounded-lg border border-slate-200 transition-all"
+                        className="w-full flex items-center justify-center gap-2 px-3 py-2 text-xs font-medium text-slate-500 dark:text-slate-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950 rounded-lg border border-slate-200 dark:border-slate-700 transition-all"
                     >
                         <LogOut className="w-3.5 h-3.5" />
                         Sign Out

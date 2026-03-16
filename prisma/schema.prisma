@@ -20,6 +20,11 @@ model Company {
   lastBulkQueryDate    DateTime?
   nextBulkQueryDueDate DateTime?
   
+  // Clearinghouse Registration Tracking
+  clearinghouseRegistered Boolean @default(false)
+  ctpaDesignated          Boolean @default(false)
+  registrationDate        DateTime?
+
   // Automated Email Scheduling Flags
   autoSendBuyQueriesDate   DateTime?
   autoSendUpdateRosterDate DateTime?
@@ -54,7 +59,7 @@ model Consent {
   driverId    String
   driver      Driver   @relation(fields: [driverId], references: [id], onDelete: Cascade)
   type        String   // "LIMITED" or "FULL"
-  status      String   // "ACTIVE", "EXPIRED", "REVOKED"
+  status      String   // "ACTIVE", "EXPIRED", "REVOKED", "REFUSED"
   validUntil  DateTime?
   documentUrl String?
   createdAt   DateTime @default(now())
@@ -85,6 +90,21 @@ model Violation {
   reportedBy    String         // Who reported it
   status        String         // e.g., "PENDING_RTD", "RTD_ELIGIBLE", "CLEARED"
   notes         String?
+  
+  // SAP Information
+  sapName       String?
+  sapPhone      String?
+  sapEmail      String?
+  
+  // RTD Milestone Dates
+  removedFromDutyDate    DateTime?
+  sapInitialEvalDate     DateTime?
+  treatmentCompletedDate DateTime?
+  sapFollowUpEvalDate    DateTime?
+  rtdTestDate            DateTime?
+  rtdTestResult          String?   // "NEGATIVE", "POSITIVE"
+  clearedDate            DateTime?
+
   followUpTests FollowUpTest[]
   createdAt     DateTime       @default(now())
   updatedAt     DateTime       @updatedAt
@@ -105,17 +125,38 @@ model FollowUpTest {
 model SystemSettings {
   id                String   @id @default("default")
   notificationEmail String?
+  // Auto-reminder thresholds (days before due)
+  consentExpiryWarningDays  Int @default(30)
+  bulkQueryWarningDays      Int @default(30)
+  // Low balance threshold
+  lowBalanceThreshold       Int @default(5)
+  // SMTP / Email config
+  smtpHost          String?  // e.g. smtp.sendgrid.net
+  smtpPort          Int?     // e.g. 587
+  smtpUser          String?  // API key or username
+  smtpPass          String?  // Password (stored encrypted)
+  smtpFromEmail     String?  // e.g. noreply@clearinghousegroup.com
+  smtpFromName      String?  // e.g. "ClearinghouseGroup"
+  // Password policy
+  passwordMinLength          Int     @default(8)
+  passwordRequireUppercase   Boolean @default(true)
+  passwordRequireNumber      Boolean @default(true)
+  passwordRequireSpecial     Boolean @default(false)
+  // Idle timeout
+  idleTimeoutMinutes Int @default(15)
   updatedAt         DateTime @updatedAt
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String   // bcrypt hashed
-  name      String
-  role      String   @default("VIEWER") // "ADMIN" or "VIEWER"
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String   // bcrypt hashed
+  name        String
+  role        String   @default("VIEWER") // "ADMIN" or "VIEWER"
+  lastLoginAt DateTime?
+  lastLoginIp String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model AuditLog {
@@ -135,4 +176,14 @@ model LoginAttempt {
   success   Boolean
   ipAddress String?
   createdAt DateTime @default(now())
+}
+
+model EmailTemplate {
+  id          String   @id @default(cuid())
+  slug        String   @unique  // e.g. "prohibited_alert", "consent_request"
+  name        String             // Display name
+  subject     String             // Email subject line
+  body        String             // HTML email body
+  description String?            // When it's triggered
+  updatedAt   DateTime @updatedAt
 }

@@ -37,7 +37,7 @@ export async function sendProhibitedAlert(driverName: string, companyName: strin
                     ${fullQueryNote}
                 </ul>
                 <p style="margin-top: 20px;">The system has automatically generated a violation record for this driver. They must immediately be pulled from safety-sensitive functions.</p>
-                <p>Please log into the admin dashboard to review the driver's profile and begin tracking the RTD progression.</p>
+                <p>Review the driver's profile on the dashboard to track the RTD progression. The employer's Designated Employer Representative (DER) will be notified separately.</p>
             </div>
         `;
 
@@ -52,7 +52,7 @@ export async function sendProhibitedAlert(driverName: string, companyName: strin
         if (employerEmail) {
             const fullQueryWarning = requiresFullQuery
                 ? `<div style="background-color: #fefce8; padding: 15px; border-left: 4px solid #eab308; margin: 20px 0;">
-                     <p style="margin: 0; font-size: 14px; color: #854d0e;"><strong>⚠️ FULL QUERY REQUIRED:</strong> Because this driver was found Prohibited through a <em>Limited (annual) query</em>, federal regulations require that a <strong>Full Query</strong> must now be conducted on this driver. Please contact us to initiate this process.</p>
+                     <p style="margin: 0; font-size: 14px; color: #854d0e;"><strong>⚠️ FULL QUERY REQUIRED:</strong> Because this driver was found Prohibited through a <em>Limited (annual) query</em>, federal regulations require that a <strong>Full Query</strong> must now be conducted on this driver. <strong>ClearinghouseGroup will conduct the Full Query on your behalf and report the results to your Designated Employer Representative (DER).</strong></p>
                    </div>`
                 : '';
 
@@ -215,5 +215,89 @@ export async function sendUpdateRosterEmail(companyName: string, employerEmail: 
     } catch (error) {
         console.error("Failed to dispatch Update Roster reminder:", error);
         return { success: false, message: "Failed to send the email due to a server error." };
+    }
+}
+
+export async function sendConsentRequestEmail(driverName: string, companyName: string, employerEmail: string, consentType: string = "LIMITED") {
+    const fromAddress = process.env.SMTP_FROM || process.env.SMTP_USER || '"Clearinghouse System" <noreply@clearinghousegroup.com>';
+
+    try {
+        const typeLabel = consentType === "FULL" ? "Full (Pre-Employment)" : "Limited (Annual)";
+        const html = `
+            <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #143A82; max-width: 600px; line-height: 1.6;">
+                <h2 style="color: #143A82; border-bottom: 2px solid #3E91DE; padding-bottom: 10px;">Driver Consent Request</h2>
+                <p>Dear ${companyName},</p>
+                <p>ClearinghouseGroup is requesting electronic consent from the following driver to conduct a <strong>${typeLabel}</strong> query on the FMCSA Drug & Alcohol Clearinghouse:</p>
+                <div style="background-color: #f0f7ff; padding: 15px; border-radius: 5px; margin: 15px 0;">
+                    <p style="margin: 5px 0;"><strong>Driver:</strong> ${driverName}</p>
+                    <p style="margin: 5px 0;"><strong>Query Type:</strong> ${typeLabel}</p>
+                </div>
+                <p>The driver must log into the Clearinghouse and provide electronic consent for this query. Please notify the driver that their consent is required.</p>
+                <div style="background-color: #fefce8; padding: 15px; border-left: 4px solid #eab308; margin: 20px 0;">
+                    <p style="margin: 0; font-size: 14px; color: #854d0e;"><strong>⚠️ IMPORTANT:</strong> If a driver <strong>refuses to provide consent</strong>, they are <strong>prohibited from performing safety-sensitive functions</strong> (including operating a CMV) for the requesting employer, per 49 CFR Part 382.</p>
+                </div>
+                <p>If the driver needs assistance with the consent process, they can visit: <a href="https://clearinghouse.fmcsa.dot.gov/Learn/Driver" style="color: #3E91DE;">FMCSA Clearinghouse Driver Resources</a></p>
+                <p style="margin-top: 30px;">
+                    Sincerely,<br>
+                    <strong>The Compliance Team</strong><br>
+                    ClearinghouseGroup
+                </p>
+            </div>
+        `;
+
+        await transporter.sendMail({
+            from: fromAddress,
+            to: employerEmail,
+            subject: `Consent Required: FMCSA Clearinghouse Query for ${driverName}`,
+            html,
+        });
+
+        return { success: true, message: "Consent request email sent." };
+    } catch (error) {
+        console.error("Failed to send consent request email:", error);
+        return { success: false, message: "Failed to send consent request email." };
+    }
+}
+
+export async function sendQueryPlanReminderEmail(companyName: string, employerEmail: string, balance: number, driverCount: number) {
+    const fromAddress = process.env.SMTP_FROM || process.env.SMTP_USER || '"Clearinghouse System" <noreply@clearinghousegroup.com>';
+
+    try {
+        const shortage = driverCount - balance;
+        const html = `
+            <div style="font-family: Arial, sans-serif; padding: 20px; border: 1px solid #143A82; max-width: 600px; line-height: 1.6;">
+                <h2 style="color: #143A82; border-bottom: 2px solid #3E91DE; padding-bottom: 10px;">Query Plan Balance Alert</h2>
+                <p>Dear ${companyName},</p>
+                <p>Your FMCSA Clearinghouse query plan balance is running low. You currently have:</p>
+                <div style="background-color: #fef2f2; padding: 15px; border-radius: 5px; margin: 15px 0;">
+                    <p style="margin: 5px 0;"><strong>Query Credits Remaining:</strong> <span style="color: #dc2626; font-size: 18px;">${balance}</span></p>
+                    <p style="margin: 5px 0;"><strong>Active Drivers:</strong> ${driverCount}</p>
+                    <p style="margin: 5px 0;"><strong>Additional Credits Needed:</strong> <span style="color: #dc2626;">${shortage}</span></p>
+                </div>
+                <p>You will need at least <strong>${driverCount} query credits</strong> to complete your annual bulk query for all active drivers.</p>
+                <div style="background-color: #fefce8; padding: 15px; border-left: 4px solid #eab308; margin: 20px 0;">
+                    <p style="margin: 0; font-size: 14px; color: #854d0e;"><strong>⚠️ NOTE:</strong> As your C/TPA, ClearinghouseGroup <strong>cannot purchase query plans on your behalf</strong>. Only the employer can purchase query plans directly through the FMCSA Clearinghouse.</p>
+                </div>
+                <p>To purchase additional query credits, visit: <a href="https://clearinghouse.fmcsa.dot.gov" style="color: #3E91DE;">clearinghouse.fmcsa.dot.gov</a></p>
+                <p>For step-by-step instructions: <a href="https://clearinghouse.fmcsa.dot.gov/content/resources/employer/Purchase-Query-Plan.pdf" style="color: #3E91DE;">How to Purchase a Query Plan (PDF)</a></p>
+                <p style="margin-top: 30px;">
+                    Sincerely,<br>
+                    <strong>The Compliance Team</strong><br>
+                    ClearinghouseGroup
+                </p>
+            </div>
+        `;
+
+        await transporter.sendMail({
+            from: fromAddress,
+            to: employerEmail,
+            subject: `Action Required: Purchase Query Credits for ${companyName}`,
+            html,
+        });
+
+        return { success: true, message: "Query plan reminder sent." };
+    } catch (error) {
+        console.error("Failed to send query plan reminder:", error);
+        return { success: false, message: "Failed to send query plan reminder." };
     }
 }

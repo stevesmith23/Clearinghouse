@@ -2,7 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import Sidebar from "./Sidebar";
-
+import TopBar from "./TopBar";
+import { ThemeProvider } from "./ThemeProvider";
 import { IdleLogout } from "./IdleLogout";
 
 interface SidebarWrapperProps {
@@ -19,12 +20,17 @@ export default function SidebarWrapper({ session, children }: SidebarWrapperProp
     }
 
     return (
-        <div className="flex min-h-screen">
-            <Sidebar userRole={session.role} userName={session.name} />
-            <main className="flex-1 overflow-y-auto scroll-smooth">
-                {children}
-            </main>
-            <IdleLogout />
-        </div>
+        <ThemeProvider>
+            <div className="flex min-h-screen">
+                <Sidebar userRole={session.role} userName={session.name} />
+                <div className="flex-1 flex flex-col overflow-y-auto scroll-smooth">
+                    <TopBar />
+                    <main className="flex-1">
+                        {children}
+                    </main>
+                </div>
+                <IdleLogout />
+            </div>
+        </ThemeProvider>
     );
 }

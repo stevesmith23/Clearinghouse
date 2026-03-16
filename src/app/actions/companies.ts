@@ -23,6 +23,9 @@ export async function createCompany(formData: FormData) {
         ? additionalEmails.split(/[\n,]/).map(e => e.trim().toLowerCase()).filter(Boolean).join(",")
         : null;
 
+    const clearinghouseRegistered = formData.get("clearinghouseRegistered") === "on";
+    const ctpaDesignated = formData.get("ctpaDesignated") === "on";
+
     const company = await prisma.company.create({
         data: {
             name,
@@ -31,6 +34,8 @@ export async function createCompany(formData: FormData) {
             additionalEmails: cleanedAdditionalEmails,
             phone: phone || null,
             queryBalance,
+            clearinghouseRegistered,
+            ctpaDesignated,
         },
     })
 
@@ -53,7 +58,10 @@ export async function updateCompany(id: string, formData: FormData) {
         ? additionalEmails.split(/[\n,]/).map(e => e.trim().toLowerCase()).filter(Boolean).join(",")
         : null;
 
-    const updateData: any = { name, dotNumber, email, phone, additionalEmails: cleanedAdditionalEmails };
+    const clearinghouseRegistered = formData.get("clearinghouseRegistered") === "on";
+    const ctpaDesignated = formData.get("ctpaDesignated") === "on";
+
+    const updateData: any = { name, dotNumber, email, phone, additionalEmails: cleanedAdditionalEmails, clearinghouseRegistered, ctpaDesignated };
     if (queryBalanceStr !== null && queryBalanceStr !== undefined && queryBalanceStr !== "") {
         updateData.queryBalance = parseInt(queryBalanceStr, 10);
     }

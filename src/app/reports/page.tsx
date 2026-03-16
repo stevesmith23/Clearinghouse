@@ -9,6 +9,7 @@ import {
     AlertTriangle,
     BarChart3,
 } from "lucide-react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const dynamic = "force-dynamic";
@@ -103,24 +104,28 @@ export default async function ReportsPage() {
             value: totalCompanies,
             icon: Building2,
             sub: `+${companiesThisMonth} this month`,
+            href: "/companies",
         },
         {
             title: "Total Drivers",
             value: totalDrivers,
             icon: Users,
             sub: `+${driversThisMonth} this month`,
+            href: "/drivers",
         },
         {
-            title: "Total Queries Run",
+            title: "Total Queries Logged",
             value: totalQueries,
             icon: FileSearch,
             sub: "All-time",
+            href: "/queries",
         },
         {
             title: "Pre-Emp Completion",
             value: `${completionRate}%`,
             icon: UserCheck,
             sub: `${driversWithFullQuery.length} of ${allDriverIds.length} drivers`,
+            href: "/pre-employment",
         },
     ];
 
@@ -139,14 +144,16 @@ export default async function ReportsPage() {
             {/* Stat Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 {stats.map((stat, idx) => (
-                    <div
+                    <Link
                         key={idx}
-                        className="bg-white p-6 rounded-xl border border-[#77C7EC]/20 shadow-sm flex flex-col transition-all hover:border-[#3E91DE]/30 hover:shadow-md"
+                        href={stat.href}
+                        className="bg-white p-6 rounded-xl border border-[#77C7EC]/20 shadow-sm flex flex-col transition-all hover:border-[#3E91DE]/30 hover:shadow-md cursor-pointer group"
                     >
                         <div className="flex justify-between items-start mb-4">
                             <div className="p-3 rounded-lg bg-gradient-to-br from-[#77C7EC]/10 to-[#3E91DE]/10 text-[#3E91DE]">
                                 <stat.icon className="w-6 h-6" />
                             </div>
+                            <span className="text-[10px] font-bold text-[#3E91DE] bg-[#3E91DE]/10 px-2 py-0.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity">Click to view</span>
                         </div>
                         <p className="text-sm font-medium text-[#3E91DE] mb-1">
                             {stat.title}
@@ -155,7 +162,7 @@ export default async function ReportsPage() {
                         <p className="text-xs mt-2 font-medium text-[#77C7EC]">
                             {stat.sub}
                         </p>
-                    </div>
+                    </Link>
                 ))}
             </div>
 

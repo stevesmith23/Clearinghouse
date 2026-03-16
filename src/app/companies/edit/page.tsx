@@ -111,7 +111,7 @@ export default async function EditCompanyPage({ searchParams }: { searchParams: 
                             <textarea
                                 id="additionalEmails"
                                 name="additionalEmails"
-                                defaultValue={(company as any).additionalEmails?.split(",").join("\n") || ""}
+                                defaultValue={company.additionalEmails?.split(",").join("\n") || ""}
                                 placeholder="Enter additional email addresses, one per line"
                                 rows={3}
                                 className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] resize-none text-sm"
@@ -132,6 +132,36 @@ export default async function EditCompanyPage({ searchParams }: { searchParams: 
                                 className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
                                 placeholder="e.g. 50"
                             />
+                        </div>
+
+                        {/* Clearinghouse Registration Status */}
+                        <div className="space-y-3 p-4 bg-slate-50 rounded-lg border border-slate-200">
+                            <h3 className="text-sm font-bold text-[#143A82]">Clearinghouse Registration Status</h3>
+                            <p className="text-xs text-slate-500">Track whether this employer has completed their FMCSA Clearinghouse setup.</p>
+                            <div className="flex items-center gap-3">
+                                <input
+                                    id="clearinghouseRegistered"
+                                    name="clearinghouseRegistered"
+                                    type="checkbox"
+                                    defaultChecked={company.clearinghouseRegistered}
+                                    className="w-4 h-4 text-[#3E91DE] border-slate-300 rounded focus:ring-[#3E91DE]"
+                                />
+                                <label htmlFor="clearinghouseRegistered" className="text-sm text-slate-700">
+                                    Registered in FMCSA Clearinghouse
+                                </label>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <input
+                                    id="ctpaDesignated"
+                                    name="ctpaDesignated"
+                                    type="checkbox"
+                                    defaultChecked={company.ctpaDesignated}
+                                    className="w-4 h-4 text-[#3E91DE] border-slate-300 rounded focus:ring-[#3E91DE]"
+                                />
+                                <label htmlFor="ctpaDesignated" className="text-sm text-slate-700">
+                                    Designated ClearinghouseGroup as C/TPA
+                                </label>
+                            </div>
                         </div>
                     </div>
 
