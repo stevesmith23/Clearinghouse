@@ -8,6 +8,10 @@ interface CompanyRow {
     dotNumber: string;
     email: string;
     phone: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
 }
 
 export async function importCompaniesFromCSV(rows: CompanyRow[]) {
@@ -41,6 +45,10 @@ export async function importCompaniesFromCSV(rows: CompanyRow[]) {
                     dotNumber: row.dotNumber?.trim() || null,
                     email: row.email?.trim().toLowerCase() || null,
                     phone: row.phone?.trim() || null,
+                    address: row.address?.trim() || null,
+                    city: row.city?.trim() || null,
+                    state: row.state?.trim() || null,
+                    zip: row.zip?.trim() || null,
                     queryBalance: 0,
                 }
             });

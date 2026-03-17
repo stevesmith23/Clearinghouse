@@ -16,6 +16,10 @@ model Company {
   email        String?
   additionalEmails String?  // Comma-separated additional DER emails
   phone        String?
+  address      String?
+  city         String?
+  state        String?
+  zip          String?
   queryBalance         Int       @default(0)
   lastBulkQueryDate    DateTime?
   nextBulkQueryDueDate DateTime?
