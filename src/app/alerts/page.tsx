@@ -82,7 +82,7 @@ export default async function AlertsPage() {
         + overdueDrivers.length;
 
     return (
-        <div className="p-8 sm:p-12 mb-20 bg-white min-h-full">
+        <div className="p-8 sm:p-12 mb-20 bg-white dark:bg-slate-900 min-h-full">
             <div className="mb-8 flex justify-between items-start">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-[#143A82] flex items-center gap-3">

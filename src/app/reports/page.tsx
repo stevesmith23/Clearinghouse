@@ -130,7 +130,7 @@ export default async function ReportsPage() {
     ];
 
     return (
-        <div className="p-8 pb-20 sm:p-12 bg-white min-h-full">
+        <div className="p-8 pb-20 sm:p-12 bg-white dark:bg-slate-900 min-h-full">
             <div className="mb-8">
                 <h1 className="text-3xl font-bold tracking-tight text-[#143A82] flex items-center gap-3">
                     <BarChart3 className="w-8 h-8 text-[#3E91DE]" />

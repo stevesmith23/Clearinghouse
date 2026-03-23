@@ -16,7 +16,7 @@ export default async function UsersPage() {
     });
 
     return (
-        <div className="p-8 pb-20 sm:p-12 bg-white min-h-full">
+        <div className="p-8 pb-20 sm:p-12 bg-white dark:bg-slate-900 min-h-full">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                 <div>
                     <Link

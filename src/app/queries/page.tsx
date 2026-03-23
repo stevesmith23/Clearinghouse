@@ -18,7 +18,7 @@ export default async function QueriesPage() {
     })
 
     return (
-        <div className="p-8 sm:p-12 mb-20 bg-white min-h-full">
+        <div className="p-8 sm:p-12 mb-20 bg-white dark:bg-slate-900 min-h-full">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                 <div>
                     <h1 className="text-3xl font-bold tracking-tight text-[#143A82]">Query Log</h1>

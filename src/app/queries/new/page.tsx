@@ -19,7 +19,7 @@ export default async function NewQueryPage({ searchParams }: { searchParams: Pro
     })
 
     return (
-        <div className="p-8 sm:p-12 mb-20 bg-white min-h-full max-w-3xl mx-auto">
+        <div className="p-8 sm:p-12 mb-20 bg-white dark:bg-slate-900 min-h-full max-w-3xl mx-auto">
             <div className="mb-6">
                 <Link href="/queries" className="text-sm font-medium text-[#3E91DE] hover:text-[#143A82] flex items-center gap-1 transition-colors">
                     <ArrowLeft className="w-4 h-4" /> Back to Query Log

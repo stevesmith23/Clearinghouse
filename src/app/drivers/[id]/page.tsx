@@ -31,7 +31,7 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
     const activeConsent = driver.consents.find(c => c.status === 'ACTIVE');
 
     return (
-        <div className="p-8 sm:p-12 mb-20 bg-white min-h-full">
+        <div className="p-8 sm:p-12 mb-20 bg-white dark:bg-slate-900 min-h-full">
             <div className="mb-6">
                 <Link href={`/companies/${driver.companyId}`} className="text-sm font-medium text-[#3E91DE] hover:text-[#143A82] flex items-center gap-1 transition-colors">
                     <ArrowLeft className="w-4 h-4" /> Back to {driver.company.name}
