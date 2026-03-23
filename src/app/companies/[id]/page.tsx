@@ -99,9 +99,16 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2 space-y-8">
                     <Card>
-                        <CardHeader className="flex flex-row items-center justify-between">
-                            <CardTitle>Drivers Registry</CardTitle>
-                            <div className="flex items-center gap-2">
+                        <CardHeader className="space-y-3">
+                            <div className="flex items-center justify-between">
+                                <CardTitle>Drivers Registry</CardTitle>
+                                <Link href={`/drivers/new?companyId=${company.id}`}>
+                                    <Button size="sm" className="bg-[#3E91DE] hover:bg-[#143A82] text-white">
+                                        <UserPlus className="w-4 h-4 mr-1" /> Add Driver
+                                    </Button>
+                                </Link>
+                            </div>
+                            <div className="flex flex-wrap items-center gap-2">
                                 <ReminderButton companyId={company.id} hasEmail={!!company.email} type="buy-queries" hasDeadline={!!company.nextBulkQueryDueDate} />
                                 <ReminderButton companyId={company.id} hasEmail={!!company.email} type="update-roster" hasDeadline={!!company.nextBulkQueryDueDate} />
                                 <Link target="_blank" href={`/api/export/bulk-queries?companyId=${company.id}`}>
@@ -117,11 +124,6 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
                                 <Link target="_blank" href={`/api/export/audit-report?companyId=${company.id}`}>
                                     <Button size="sm" variant="outline" className="text-emerald-600 border-emerald-200 hover:bg-emerald-50">
                                         <ClipboardList className="w-4 h-4 mr-1" /> Audit Report
-                                    </Button>
-                                </Link>
-                                <Link href={`/drivers/new?companyId=${company.id}`}>
-                                    <Button size="sm" variant="outline">
-                                        <UserPlus className="w-4 h-4 mr-1" /> Add Driver
                                     </Button>
                                 </Link>
                             </div>
