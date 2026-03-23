@@ -94,6 +94,18 @@ export async function GET(request: Request) {
                 "updatedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
             )`,
         },
+        // DriverNote table
+        {
+            name: "DriverNote",
+            sql: `CREATE TABLE IF NOT EXISTS "DriverNote" (
+                "id" TEXT NOT NULL PRIMARY KEY,
+                "driverId" TEXT NOT NULL,
+                "content" TEXT NOT NULL,
+                "createdBy" TEXT NOT NULL,
+                "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                CONSTRAINT "DriverNote_driverId_fkey" FOREIGN KEY ("driverId") REFERENCES "Driver" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+            )`,
+        },
     ];
 
     for (const table of tables) {
