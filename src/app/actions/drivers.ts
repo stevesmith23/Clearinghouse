@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { prisma } from "@/lib/prisma"
+import { getSession } from "@/lib/auth"
 
 export async function createDriver(formData: FormData) {
     const firstName = formData.get("firstName") as string
@@ -125,5 +126,23 @@ export async function transferDriver(driverId: string, newCompanyId: string) {
     revalidatePath(`/companies/${newCompanyId}`)
     revalidatePath(`/drivers/${driverId}`)
 
+    return { success: true }
+}
+
+export async function addDriverNote(driverId: string, content: string) {
+    if (!driverId || !content.trim()) throw new Error("Missing fields")
+
+    const session = await getSession()
+    const createdBy = session?.name || "System"
+
+    await prisma.driverNote.create({
+        data: {
+            driverId,
+            content: content.trim(),
+            createdBy,
+        }
+    })
+
+    revalidatePath(`/drivers/${driverId}`)
     return { success: true }
 }

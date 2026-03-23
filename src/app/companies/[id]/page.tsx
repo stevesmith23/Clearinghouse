@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, Building2, Mail, Phone, Hash, ChevronRight, UserPlus, FileSearch, Download, Edit } from "lucide-react"
+import { ArrowLeft, Building2, Mail, Phone, Hash, ChevronRight, UserPlus, FileSearch, Download, Edit, FileText, ClipboardList } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -107,6 +107,16 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
                                 <Link target="_blank" href={`/api/export/bulk-queries?companyId=${company.id}`}>
                                     <Button size="sm" variant="outline" className="text-slate-600 border-slate-300 hover:bg-slate-50">
                                         <Download className="w-4 h-4 mr-1" /> Export Bulk List
+                                    </Button>
+                                </Link>
+                                <Link target="_blank" href={`/api/export/fmcsa-bulk?companyId=${company.id}`}>
+                                    <Button size="sm" variant="outline" className="text-indigo-600 border-indigo-200 hover:bg-indigo-50">
+                                        <FileText className="w-4 h-4 mr-1" /> FMCSA Upload CSV
+                                    </Button>
+                                </Link>
+                                <Link target="_blank" href={`/api/export/audit-report?companyId=${company.id}`}>
+                                    <Button size="sm" variant="outline" className="text-emerald-600 border-emerald-200 hover:bg-emerald-50">
+                                        <ClipboardList className="w-4 h-4 mr-1" /> Audit Report
                                     </Button>
                                 </Link>
                                 <Link href={`/drivers/new?companyId=${company.id}`}>

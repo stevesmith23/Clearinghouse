@@ -8,6 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { addConsent, revokeConsent } from "@/app/actions/drivers"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import DriverNotes from "./DriverNotes"
 
 export const dynamic = 'force-dynamic';
 
@@ -20,7 +21,8 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
             company: true,
             consents: { orderBy: { createdAt: 'desc' } },
             queries: { orderBy: { queryDate: 'desc' } },
-            violations: { orderBy: { violationDate: 'desc' } }
+            violations: { orderBy: { violationDate: 'desc' } },
+            notes: { orderBy: { createdAt: 'desc' } }
         }
     })
 
@@ -229,6 +231,11 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
                         </CardContent>
                     </Card>
                 </div>
+            </div>
+
+            {/* Driver Notes */}
+            <div className="mt-8">
+                <DriverNotes driverId={driver.id} notes={driver.notes} />
             </div>
         </div>
     )

@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma"
 import { FileSearch, Users, Building2, AlertTriangle, CheckCircle2, AlertCircle, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import DashboardCharts from "./DashboardCharts";
 
 export const dynamic = 'force-dynamic';
 
@@ -38,6 +39,43 @@ export default async function Home() {
   const shortfallCount = companiesWithShortfall.length;
 
   const actionsNeeded = expiringConsents + (activeViolationsCount > 0 ? 1 : 0) + (expiringBulkQueriesCount > 0 ? 1 : 0) + (shortfallCount > 0 ? 1 : 0);
+
+  // ─── Chart Data ───────────────────────────────
+  // Consent coverage
+  const activeConsentCount = await prisma.consent.count({ where: { status: 'ACTIVE', OR: [{ validUntil: null }, { validUntil: { gt: thirtyDaysFromNow } }] } });
+  const expiringConsentCount = expiringConsents; // already computed above
+  const driversWithConsent = await prisma.driver.count({ where: { consents: { some: { status: 'ACTIVE' } } } });
+  const missingConsentCount = driverCount - driversWithConsent;
+
+  // Monthly queries (last 6 months)
+  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const monthlyQueries: { month: string; count: number }[] = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date();
+    d.setMonth(d.getMonth() - i);
+    const start = new Date(d.getFullYear(), d.getMonth(), 1);
+    const end = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+    const count = await prisma.query.count({ where: { queryDate: { gte: start, lt: end } } });
+    monthlyQueries.push({ month: monthNames[start.getMonth()], count });
+  }
+
+  // Company compliance (% drivers with active consent) — top 8
+  const companiesWithDrivers = await prisma.company.findMany({
+    where: { drivers: { some: {} } },
+    select: {
+      name: true,
+      _count: { select: { drivers: true } },
+      drivers: { select: { consents: { where: { status: 'ACTIVE' }, select: { id: true } } } }
+    },
+    orderBy: { name: 'asc' }
+  });
+  const companyCompliance = companiesWithDrivers
+    .map(c => ({
+      name: c.name,
+      percent: Math.round((c.drivers.filter(d => d.consents.length > 0).length / c._count.drivers) * 100)
+    }))
+    .sort((a, b) => a.percent - b.percent)
+    .slice(0, 8);
 
   const stats = [
     { title: "Total Companies", value: companyCount, icon: Building2, trend: "Active clients", trendUp: true, href: "/companies" },
@@ -98,6 +136,12 @@ export default async function Home() {
           return inner;
         })}
       </div>
+
+      <DashboardCharts
+        consentStats={{ active: activeConsentCount, expiring: expiringConsentCount, missing: missingConsentCount }}
+        monthlyQueries={monthlyQueries}
+        companyCompliance={companyCompliance}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* ALERTS SECTION MOVED TO LEFT/PRIMARY COLUMN */}
