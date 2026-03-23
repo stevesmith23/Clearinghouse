@@ -59,6 +59,8 @@ export async function addConsent(formData: FormData) {
     })
 
     revalidatePath(`/drivers/${driverId}`)
+    revalidatePath("/consents")
+    redirect(`/drivers/${driverId}`)
 }
 
 export async function revokeConsent(consentId: string, driverId: string) {

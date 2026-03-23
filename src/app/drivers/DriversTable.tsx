@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Users, Search, Building2, AlertTriangle, FileCheck, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { Users, Search, Building2, AlertTriangle, FileCheck, ArrowUp, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -21,11 +21,33 @@ type DriverRow = {
 type SortKey = "name" | "cdl" | "company" | "consent";
 type SortDir = "asc" | "desc";
 
-function SortIcon({ column, active, dir }: { column: string; active: string; dir: SortDir }) {
-    if (column !== active) return <ArrowUpDown className="w-3 h-3 text-slate-300 ml-1 inline" />;
-    return dir === "asc"
-        ? <ArrowUp className="w-3 h-3 text-[#3E91DE] ml-1 inline" />
-        : <ArrowDown className="w-3 h-3 text-[#3E91DE] ml-1 inline" />;
+function SortButtons({ columnKey, activeKey, activeDir, onSort }: {
+    columnKey: SortKey;
+    activeKey: SortKey;
+    activeDir: SortDir;
+    onSort: (key: SortKey, dir: SortDir) => void;
+}) {
+    const isActiveAsc = activeKey === columnKey && activeDir === "asc";
+    const isActiveDesc = activeKey === columnKey && activeDir === "desc";
+
+    return (
+        <span className="inline-flex flex-col ml-1.5 -my-1 gap-0">
+            <button
+                onClick={(e) => { e.stopPropagation(); onSort(columnKey, "asc"); }}
+                className={`leading-none p-0 ${isActiveAsc ? "text-[#3E91DE]" : "text-slate-300 hover:text-slate-500"}`}
+                title="Sort A→Z"
+            >
+                <ArrowUp className="w-3 h-3" />
+            </button>
+            <button
+                onClick={(e) => { e.stopPropagation(); onSort(columnKey, "desc"); }}
+                className={`leading-none p-0 ${isActiveDesc ? "text-[#3E91DE]" : "text-slate-300 hover:text-slate-500"}`}
+                title="Sort Z→A"
+            >
+                <ArrowDown className="w-3 h-3" />
+            </button>
+        </span>
+    );
 }
 
 export default function DriversTable({ drivers }: { drivers: DriverRow[] }) {
@@ -33,13 +55,9 @@ export default function DriversTable({ drivers }: { drivers: DriverRow[] }) {
     const [sortKey, setSortKey] = useState<SortKey>("name");
     const [sortDir, setSortDir] = useState<SortDir>("asc");
 
-    function toggleSort(key: SortKey) {
-        if (sortKey === key) {
-            setSortDir(sortDir === "asc" ? "desc" : "asc");
-        } else {
-            setSortKey(key);
-            setSortDir("asc");
-        }
+    function handleSort(key: SortKey, dir: SortDir) {
+        setSortKey(key);
+        setSortDir(dir);
     }
 
     const filtered = useMemo(() => {
@@ -97,17 +115,29 @@ export default function DriversTable({ drivers }: { drivers: DriverRow[] }) {
                 <Table>
                     <TableHeader className="bg-slate-50">
                         <TableRow>
-                            <TableHead className="cursor-pointer select-none hover:text-[#3E91DE] transition-colors" onClick={() => toggleSort("name")}>
-                                Driver Name <SortIcon column="name" active={sortKey} dir={sortDir} />
+                            <TableHead>
+                                <span className="inline-flex items-center">
+                                    Driver Name
+                                    <SortButtons columnKey="name" activeKey={sortKey} activeDir={sortDir} onSort={handleSort} />
+                                </span>
                             </TableHead>
-                            <TableHead className="cursor-pointer select-none hover:text-[#3E91DE] transition-colors" onClick={() => toggleSort("cdl")}>
-                                CDL Number <SortIcon column="cdl" active={sortKey} dir={sortDir} />
+                            <TableHead>
+                                <span className="inline-flex items-center">
+                                    CDL Number
+                                    <SortButtons columnKey="cdl" activeKey={sortKey} activeDir={sortDir} onSort={handleSort} />
+                                </span>
                             </TableHead>
-                            <TableHead className="cursor-pointer select-none hover:text-[#3E91DE] transition-colors" onClick={() => toggleSort("company")}>
-                                Company <SortIcon column="company" active={sortKey} dir={sortDir} />
+                            <TableHead>
+                                <span className="inline-flex items-center">
+                                    Company
+                                    <SortButtons columnKey="company" activeKey={sortKey} activeDir={sortDir} onSort={handleSort} />
+                                </span>
                             </TableHead>
-                            <TableHead className="text-center cursor-pointer select-none hover:text-[#3E91DE] transition-colors" onClick={() => toggleSort("consent")}>
-                                Consent Status <SortIcon column="consent" active={sortKey} dir={sortDir} />
+                            <TableHead className="text-center">
+                                <span className="inline-flex items-center justify-center">
+                                    Consent Status
+                                    <SortButtons columnKey="consent" activeKey={sortKey} activeDir={sortDir} onSort={handleSort} />
+                                </span>
                             </TableHead>
                             <TableHead className="text-right">Action</TableHead>
                         </TableRow>
