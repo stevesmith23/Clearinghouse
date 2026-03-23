@@ -4,6 +4,7 @@ import { User, ArrowLeft, Save } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { DeleteDriverButton } from "./DeleteDriverButton";
+import TransferDriverButton from "./TransferDriverButton";
 
 export const dynamic = 'force-dynamic';
 
@@ -14,10 +15,16 @@ export default async function EditDriverPage({ searchParams }: { searchParams: P
         notFound();
     }
 
-    const driver = await prisma.driver.findUnique({
-        where: { id },
-        include: { company: true }
-    });
+    const [driver, companies] = await Promise.all([
+        prisma.driver.findUnique({
+            where: { id },
+            include: { company: true }
+        }),
+        prisma.company.findMany({
+            orderBy: { name: 'asc' },
+            select: { id: true, name: true }
+        })
+    ]);
 
     if (!driver) {
         notFound();
@@ -128,7 +135,15 @@ export default async function EditDriverPage({ searchParams }: { searchParams: P
                     </div>
 
                     <div className="mt-8 pt-6 border-t border-[#77C7EC]/20 flex justify-between items-center">
-                        <DeleteDriverButton driverId={driver.id} driverName={`${driver.firstName} ${driver.lastName}`} />
+                        <div className="flex items-center gap-2">
+                            <DeleteDriverButton driverId={driver.id} driverName={`${driver.firstName} ${driver.lastName}`} />
+                            <TransferDriverButton
+                                driverId={driver.id}
+                                driverName={`${driver.firstName} ${driver.lastName}`}
+                                currentCompanyId={driver.companyId}
+                                companies={companies}
+                            />
+                        </div>
                         <div className="flex justify-end gap-3">
                             <Link
                                 href={`/drivers/${id}`}

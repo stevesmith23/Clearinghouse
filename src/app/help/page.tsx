@@ -1,20 +1,64 @@
-import { HelpCircle, ExternalLink, FileText, BookOpen, Shield, Users, Building2, Stethoscope, GraduationCap, Truck } from "lucide-react";
-import Link from "next/link";
-import { requireAuth } from "@/lib/auth";
+"use client";
 
-export const dynamic = "force-dynamic";
+import { useState } from "react";
+import { HelpCircle, ExternalLink, FileText, BookOpen, Shield, Users, Building2, Stethoscope, Truck, ChevronDown, Briefcase } from "lucide-react";
 
-export default async function HelpPage() {
-    await requireAuth();
+function AccordionSection({ title, icon: Icon, borderColor, iconColor, description, links, defaultOpen = false }: {
+    title: string;
+    icon: any;
+    borderColor: string;
+    iconColor: string;
+    description: string;
+    links: { label: string; url: string }[];
+    defaultOpen?: boolean;
+}) {
+    const [open, setOpen] = useState(defaultOpen);
 
+    return (
+        <div className={`bg-white dark:bg-slate-900 rounded-xl border ${borderColor} shadow-sm overflow-hidden transition-all`}>
+            <button
+                onClick={() => setOpen(!open)}
+                className="w-full px-6 py-4 flex items-center gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors text-left"
+            >
+                <Icon className={`w-5 h-5 ${iconColor} shrink-0`} />
+                <div className="flex-1 min-w-0">
+                    <h2 className="font-bold text-slate-900 dark:text-white">{title}</h2>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{description}</p>
+                </div>
+                <ChevronDown className={`w-4 h-4 text-slate-400 shrink-0 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+            </button>
+            {open && (
+                <div className="divide-y divide-slate-100 dark:divide-slate-800 border-t border-slate-100 dark:border-slate-800">
+                    {links.map((link) => (
+                        <a
+                            key={link.url}
+                            href={link.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-between px-6 py-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors group"
+                        >
+                            <div className="flex items-center gap-3">
+                                <FileText className="w-4 h-4 text-slate-400 group-hover:text-[#3E91DE] transition-colors shrink-0" />
+                                <span className="text-sm text-slate-800 dark:text-slate-200 group-hover:text-[#3E91DE] transition-colors">{link.label}</span>
+                            </div>
+                            <ExternalLink className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#3E91DE] transition-colors shrink-0" />
+                        </a>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default function HelpPage() {
     const sections = [
         {
             title: "C/TPA Resources",
             icon: Building2,
-            color: "text-[#3E91DE]",
-            bg: "bg-[#3E91DE]/5",
-            border: "border-[#3E91DE]/20",
+            iconColor: "text-[#3E91DE]",
+            borderColor: "border-[#3E91DE]/20 dark:border-[#3E91DE]/30",
             description: "Resources for Consortia/Third-Party Administrators — your primary role.",
+            defaultOpen: true,
             links: [
                 { label: "Brochure: Registration & Requirements for C/TPAs", url: "https://clearinghouse.fmcsa.dot.gov/content/resources/CTPA/Clearinghouse-Brochure-CTPA.pdf" },
                 { label: "How to Register as a C/TPA", url: "https://clearinghouse.fmcsa.dot.gov/content/resources/CTPA/Registration-Instructions-CTPA.pdf" },
@@ -29,9 +73,8 @@ export default async function HelpPage() {
         {
             title: "Employer Resources",
             icon: Users,
-            color: "text-indigo-600",
-            bg: "bg-indigo-50",
-            border: "border-indigo-200",
+            iconColor: "text-indigo-500",
+            borderColor: "border-indigo-200 dark:border-indigo-800",
             description: "Share these with your client companies as needed.",
             links: [
                 { label: "Brochure: Requirements for Employers", url: "https://clearinghouse.fmcsa.dot.gov/content/resources/employer/Clearinghouse-Brochure-Employer.pdf" },
@@ -45,11 +88,26 @@ export default async function HelpPage() {
             ],
         },
         {
+            title: "Owner Operator Resources",
+            icon: Briefcase,
+            iconColor: "text-cyan-600",
+            borderColor: "border-cyan-200 dark:border-cyan-800",
+            description: "Resources for owner-operators who are both the employer and driver — registration, self-queries, and compliance.",
+            links: [
+                { label: "Owner-Operator Registration Guide", url: "https://clearinghouse.fmcsa.dot.gov/content/resources/employer/Registration-Instructions-Employer-Without-Portal.pdf" },
+                { label: "How to Conduct a Pre-Employment Query (Self-Query)", url: "https://clearinghouse.fmcsa.dot.gov/content/resources/employer/Conduct-Pre-Employment-Query.pdf" },
+                { label: "How to Purchase a Query Plan", url: "https://clearinghouse.fmcsa.dot.gov/content/resources/employer/Purchase-Query-Plan.pdf" },
+                { label: "Brochure: CDL Driver Requirements", url: "https://clearinghouse.fmcsa.dot.gov/content/resources/driver/Clearinghouse-Brochure-Driver.pdf" },
+                { label: "How to Respond to Consent Requests", url: "https://clearinghouse.fmcsa.dot.gov/content/resources/driver/Responding-to-Consent-Requests.pdf" },
+                { label: "How to Designate a C/TPA", url: "https://clearinghouse.fmcsa.dot.gov/content/resources/employer/Designate-CTPA.pdf" },
+                { label: "FMCSA Drug & Alcohol Testing Resources", url: "https://www.fmcsa.dot.gov/regulations/drug-alcohol-testing/employers-resources-and-downloads" },
+            ],
+        },
+        {
             title: "Driver Resources",
             icon: Truck,
-            color: "text-emerald-600",
-            bg: "bg-emerald-50",
-            border: "border-emerald-200",
+            iconColor: "text-emerald-500",
+            borderColor: "border-emerald-200 dark:border-emerald-800",
             description: "Resources to share with drivers who need to respond to consent requests or navigate the RTD process.",
             links: [
                 { label: "Brochure: Registration for CDL Drivers", url: "https://clearinghouse.fmcsa.dot.gov/content/resources/driver/Clearinghouse-Brochure-Driver.pdf" },
@@ -63,9 +121,8 @@ export default async function HelpPage() {
         {
             title: "Violations & RTD Process",
             icon: Shield,
-            color: "text-red-600",
-            bg: "bg-red-50",
-            border: "border-red-200",
+            iconColor: "text-red-500",
+            borderColor: "border-red-200 dark:border-red-800",
             description: "The Return-to-Duty process after a violation: SAP evaluation → treatment → follow-up eval → RTD test → cleared.",
             links: [
                 { label: "Overview of the Return-to-Duty Process", url: "https://clearinghouse.fmcsa.dot.gov/content/resources/RTD-Process-Overview.pdf" },
@@ -78,9 +135,8 @@ export default async function HelpPage() {
         {
             title: "MRO & SAP Resources",
             icon: Stethoscope,
-            color: "text-purple-600",
-            bg: "bg-purple-50",
-            border: "border-purple-200",
+            iconColor: "text-purple-500",
+            borderColor: "border-purple-200 dark:border-purple-800",
             description: "Resources for Medical Review Officers and Substance Abuse Professionals.",
             links: [
                 { label: "How to Register as an MRO", url: "https://clearinghouse.fmcsa.dot.gov/content/resources/MRO/Registration-Instructions-MRO.pdf" },
@@ -92,9 +148,8 @@ export default async function HelpPage() {
         {
             title: "Regulatory & General",
             icon: BookOpen,
-            color: "text-amber-600",
-            bg: "bg-amber-50",
-            border: "border-amber-200",
+            iconColor: "text-amber-500",
+            borderColor: "border-amber-200 dark:border-amber-800",
             description: "Official rules, regulations, and general FMCSA resources.",
             links: [
                 { label: "FMCSA Clearinghouse Website", url: "https://clearinghouse.fmcsa.dot.gov" },
@@ -112,43 +167,27 @@ export default async function HelpPage() {
     return (
         <div className="p-8 sm:p-12 max-w-7xl mx-auto mb-20">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold tracking-tight text-[#143A82] flex items-center gap-3">
+                <h1 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-3">
                     <HelpCircle className="w-8 h-8 text-[#3E91DE]" />
                     Help & FMCSA Resources
                 </h1>
-                <p className="text-[#3E91DE] mt-1">
+                <p className="text-slate-600 dark:text-slate-400 mt-1">
                     Quick-reference links to official FMCSA Clearinghouse guides and PDFs, organized by role and workflow.
                 </p>
             </div>
 
-            <div className="space-y-6">
+            <div className="space-y-3">
                 {sections.map((section) => (
-                    <div key={section.title} className={`bg-white rounded-xl border ${section.border} shadow-sm overflow-hidden`}>
-                        <div className={`px-6 py-4 ${section.bg} border-b ${section.border} flex items-center gap-3`}>
-                            <section.icon className={`w-5 h-5 ${section.color}`} />
-                            <div>
-                                <h2 className={`font-bold ${section.color}`}>{section.title}</h2>
-                                <p className="text-xs text-slate-500 mt-0.5">{section.description}</p>
-                            </div>
-                        </div>
-                        <div className="divide-y divide-slate-100">
-                            {section.links.map((link) => (
-                                <a
-                                    key={link.url}
-                                    href={link.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center justify-between px-6 py-3 hover:bg-slate-50 transition-colors group"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <FileText className="w-4 h-4 text-slate-400 group-hover:text-[#3E91DE] transition-colors shrink-0" />
-                                        <span className="text-sm text-[#143A82] group-hover:text-[#3E91DE] transition-colors">{link.label}</span>
-                                    </div>
-                                    <ExternalLink className="w-3.5 h-3.5 text-slate-300 group-hover:text-[#3E91DE] transition-colors shrink-0" />
-                                </a>
-                            ))}
-                        </div>
-                    </div>
+                    <AccordionSection
+                        key={section.title}
+                        title={section.title}
+                        icon={section.icon}
+                        iconColor={section.iconColor}
+                        borderColor={section.borderColor}
+                        description={section.description}
+                        links={section.links}
+                        defaultOpen={section.defaultOpen}
+                    />
                 ))}
             </div>
         </div>

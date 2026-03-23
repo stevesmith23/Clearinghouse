@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
-import { Building2, Users, Search } from "lucide-react";
+import { Building2, Users, Search, ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,18 +19,62 @@ type CompanyRow = {
     _count: { drivers: number };
 };
 
+type SortKey = "name" | "drivers" | "queryBalance" | "nextDue";
+type SortDir = "asc" | "desc";
+
+function SortIcon({ column, active, dir }: { column: string; active: string; dir: SortDir }) {
+    if (column !== active) return <ArrowUpDown className="w-3 h-3 text-slate-300 ml-1 inline" />;
+    return dir === "asc"
+        ? <ArrowUp className="w-3 h-3 text-[#3E91DE] ml-1 inline" />
+        : <ArrowDown className="w-3 h-3 text-[#3E91DE] ml-1 inline" />;
+}
+
 export function CompaniesTable({ companies }: { companies: CompanyRow[] }) {
     const [search, setSearch] = useState("");
+    const [sortKey, setSortKey] = useState<SortKey>("name");
+    const [sortDir, setSortDir] = useState<SortDir>("asc");
 
-    const filtered = companies.filter((c) => {
+    function toggleSort(key: SortKey) {
+        if (sortKey === key) {
+            setSortDir(sortDir === "asc" ? "desc" : "asc");
+        } else {
+            setSortKey(key);
+            setSortDir("asc");
+        }
+    }
+
+    const filtered = useMemo(() => {
         const term = search.toLowerCase();
-        return (
+        let result = companies.filter((c) =>
             c.name.toLowerCase().includes(term) ||
             (c.dotNumber && c.dotNumber.toLowerCase().includes(term)) ||
             (c.email && c.email.toLowerCase().includes(term)) ||
             (c.phone && c.phone.toLowerCase().includes(term))
         );
-    });
+
+        result.sort((a, b) => {
+            let cmp = 0;
+            switch (sortKey) {
+                case "name":
+                    cmp = a.name.localeCompare(b.name);
+                    break;
+                case "drivers":
+                    cmp = a._count.drivers - b._count.drivers;
+                    break;
+                case "queryBalance":
+                    cmp = a.queryBalance - b.queryBalance;
+                    break;
+                case "nextDue":
+                    const aDate = a.nextBulkQueryDueDate ? new Date(a.nextBulkQueryDueDate).getTime() : Infinity;
+                    const bDate = b.nextBulkQueryDueDate ? new Date(b.nextBulkQueryDueDate).getTime() : Infinity;
+                    cmp = aDate - bDate;
+                    break;
+            }
+            return sortDir === "desc" ? -cmp : cmp;
+        });
+
+        return result;
+    }, [companies, search, sortKey, sortDir]);
 
     return (
         <Card>
@@ -51,13 +95,21 @@ export function CompaniesTable({ companies }: { companies: CompanyRow[] }) {
                 <Table>
                     <TableHeader className="bg-slate-50">
                         <TableRow>
-                            <TableHead>Company Name</TableHead>
+                            <TableHead className="cursor-pointer select-none hover:text-[#3E91DE] transition-colors" onClick={() => toggleSort("name")}>
+                                Company Name <SortIcon column="name" active={sortKey} dir={sortDir} />
+                            </TableHead>
                             <TableHead>DOT Number</TableHead>
                             <TableHead>Contact</TableHead>
-                            <TableHead className="text-right">Drivers</TableHead>
+                            <TableHead className="text-right cursor-pointer select-none hover:text-[#3E91DE] transition-colors" onClick={() => toggleSort("drivers")}>
+                                Drivers <SortIcon column="drivers" active={sortKey} dir={sortDir} />
+                            </TableHead>
                             <TableHead className="text-right">Last Bulk Query</TableHead>
-                            <TableHead className="text-right">Next Due Date</TableHead>
-                            <TableHead className="text-right">Query Balance</TableHead>
+                            <TableHead className="text-right cursor-pointer select-none hover:text-[#3E91DE] transition-colors" onClick={() => toggleSort("nextDue")}>
+                                Next Due Date <SortIcon column="nextDue" active={sortKey} dir={sortDir} />
+                            </TableHead>
+                            <TableHead className="text-right cursor-pointer select-none hover:text-[#3E91DE] transition-colors" onClick={() => toggleSort("queryBalance")}>
+                                Query Balance <SortIcon column="queryBalance" active={sortKey} dir={sortDir} />
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>

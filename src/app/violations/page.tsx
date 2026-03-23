@@ -36,14 +36,14 @@ export default async function ViolationsPage() {
     }));
 
     return (
-        <div className="p-8 sm:p-12 mb-20 bg-white min-h-full">
+        <div className="p-8 sm:p-12 mb-20 bg-white dark:bg-slate-900 min-h-full">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-[#143A82] flex items-center gap-3">
-                        <ShieldAlert className="w-8 h-8 text-[#3E91DE]" />
+                    <h1 className="text-3xl font-bold tracking-tight text-[#143A82] dark:text-white flex items-center gap-3">
+                        <ShieldAlert className="w-8 h-8 text-[#3E91DE] dark:text-[#77C7EC]" />
                         Violations & RTD Tracking
                     </h1>
-                    <p className="text-[#3E91DE] mt-1">Monitor prohibited drivers and track their Return-to-Duty progress step by step.</p>
+                    <p className="text-[#3E91DE] dark:text-slate-400 mt-1">Monitor prohibited drivers and track their Return-to-Duty progress step by step.</p>
                 </div>
             </div>
 

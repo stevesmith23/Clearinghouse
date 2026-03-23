@@ -104,3 +104,24 @@ export async function deleteDriver(id: string) {
     revalidatePath(`/companies/${driver.companyId}`)
     redirect(`/companies/${driver.companyId}`)
 }
+
+export async function transferDriver(driverId: string, newCompanyId: string) {
+    if (!driverId || !newCompanyId) throw new Error("Missing required fields")
+
+    const driver = await prisma.driver.findUnique({ where: { id: driverId } })
+    if (!driver) throw new Error("Driver not found")
+
+    const oldCompanyId = driver.companyId
+
+    await prisma.driver.update({
+        where: { id: driverId },
+        data: { companyId: newCompanyId },
+    })
+
+    revalidatePath("/drivers")
+    revalidatePath(`/companies/${oldCompanyId}`)
+    revalidatePath(`/companies/${newCompanyId}`)
+    revalidatePath(`/drivers/${driverId}`)
+
+    return { success: true }
+}
