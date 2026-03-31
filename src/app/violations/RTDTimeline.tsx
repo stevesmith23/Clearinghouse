@@ -125,7 +125,7 @@ export default function RTDTimeline({ violation }: { violation: Violation }) {
                         "bg-red-500"
                     }`} />
                     <div className="min-w-0">
-                        <p className="font-semibold text-[#143A82] truncate">{violation.driver.firstName} {violation.driver.lastName}</p>
+                        <p className="font-semibold text-[#143A82] dark:text-white truncate">{violation.driver.firstName} {violation.driver.lastName}</p>
                         <p className="text-xs text-slate-500">
                             {violation.violationType.replace(/_/g, " ")} · {new Date(violation.violationDate).toLocaleDateString()} · CDL: {violation.driver.cdlNumber}
                         </p>
@@ -195,7 +195,7 @@ export default function RTDTimeline({ violation }: { violation: Violation }) {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 p-6">
                         {/* Timeline */}
                         <div className="lg:col-span-2">
-                            <h4 className="text-sm font-bold text-[#143A82] mb-4">RTD Progress Timeline</h4>
+                            <h4 className="text-sm font-bold text-[#143A82] dark:text-white mb-4">RTD Progress Timeline</h4>
                             <div className="space-y-0">
                                 {steps.map((step, idx) => {
                                     // If positive RTD, show reset state for steps after Removed from Duty
@@ -226,7 +226,7 @@ export default function RTDTimeline({ violation }: { violation: Violation }) {
                                                     <span className={`text-sm font-medium ${
                                                         isPositiveTestStep ? "text-red-700" :
                                                         isResetStep ? "text-amber-600" :
-                                                        step.date ? "text-[#143A82]" : "text-slate-400"
+                                                        step.date ? "text-[#143A82] dark:text-white" : "text-slate-400"
                                                     }`}>
                                                         {step.label}
                                                     </span>
@@ -254,7 +254,7 @@ export default function RTDTimeline({ violation }: { violation: Violation }) {
 
                         {/* SAP Info */}
                         <div>
-                            <h4 className="text-sm font-bold text-[#143A82] mb-4">SAP Information</h4>
+                            <h4 className="text-sm font-bold text-[#143A82] dark:text-white mb-4">SAP Information</h4>
                             <div className="space-y-3">
                                 <div>
                                     <label className="text-xs font-medium text-slate-500 flex items-center gap-1 mb-1"><User className="w-3 h-3" /> SAP Name</label>
@@ -277,7 +277,7 @@ export default function RTDTimeline({ violation }: { violation: Violation }) {
 
                     {/* Milestone Date Inputs */}
                     <div className="px-6 pb-4">
-                        <h4 className="text-sm font-bold text-[#143A82] mb-3">Update Milestones</h4>
+                        <h4 className="text-sm font-bold text-[#143A82] dark:text-white mb-3">Update Milestones</h4>
                         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
                             <div>
                                 <label className="text-xs font-medium text-slate-500 mb-1 block">Removed from Duty</label>

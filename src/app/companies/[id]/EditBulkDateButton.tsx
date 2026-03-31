@@ -32,13 +32,13 @@ export function EditBulkDateButton({ companyId, initialDate }: { companyId: stri
     return (
         <Popover open={isOpen} onOpenChange={setIsOpen}>
             <PopoverTrigger asChild>
-                <Button variant="ghost" size="sm" className="h-6 w-6 p-0 ml-1 text-[#3E91DE] hover:text-[#143A82] hover:bg-[#77C7EC]/10">
+                <Button variant="ghost" size="sm" className="h-6 w-6 p-0 ml-1 text-[#3E91DE] hover:text-[#143A82] dark:text-white hover:bg-[#77C7EC]/10">
                     <Edit2 className="h-3 w-3" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-4" align="start">
                 <div className="space-y-4">
-                    <h4 className="font-medium text-sm text-[#143A82]">Set Last Bulk Query Date</h4>
+                    <h4 className="font-medium text-sm text-[#143A82] dark:text-white">Set Last Bulk Query Date</h4>
                     <p className="text-xs text-slate-500">
                         This sets the base date. The next due date will automatically calculate to 365 days from this selection.
                     </p>

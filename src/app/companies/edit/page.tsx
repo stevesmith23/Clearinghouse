@@ -28,18 +28,18 @@ export default async function EditCompanyPage({ searchParams }: { searchParams: 
     return (
         <div className="p-8 sm:p-12 max-w-3xl mx-auto">
             <div className="mb-6">
-                <Link href="/companies" className="text-sm text-[#3E91DE] hover:text-[#143A82] font-medium flex items-center gap-1 transition-colors w-fit">
+                <Link href="/companies" className="text-sm text-[#3E91DE] hover:text-[#143A82] dark:text-white font-medium flex items-center gap-1 transition-colors w-fit">
                     <ArrowLeft className="w-4 h-4" /> Back to Companies
                 </Link>
             </div>
 
-            <div className="bg-white border border-[#77C7EC]/20 rounded-xl shadow-sm overflow-hidden">
+            <div className="bg-white dark:bg-slate-800 border border-[#77C7EC]/20 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden">
                 <div className="px-6 py-5 border-b border-[#77C7EC]/20 flex items-center gap-3 bg-gradient-to-r from-[#77C7EC]/5 to-transparent">
                     <div className="p-2 bg-[#77C7EC]/10 rounded-lg text-[#3E91DE]">
                         <Building2 className="w-5 h-5" />
                     </div>
                     <div>
-                        <h2 className="text-lg font-semibold text-[#143A82]">Edit Company</h2>
+                        <h2 className="text-lg font-semibold text-[#143A82] dark:text-white">Edit Company</h2>
                         <p className="text-sm text-[#3E91DE]">Update the employer profile details.</p>
                     </div>
                 </div>
@@ -71,7 +71,7 @@ export default async function EditCompanyPage({ searchParams }: { searchParams: 
                                     name="dotNumber"
                                     type="text"
                                     defaultValue={company.dotNumber || ""}
-                                    className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
+                                    className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white"
                                     placeholder="e.g. 1234567"
                                 />
                             </div>
@@ -84,7 +84,7 @@ export default async function EditCompanyPage({ searchParams }: { searchParams: 
                                     name="phone"
                                     type="text"
                                     defaultValue={company.phone || ""}
-                                    className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
+                                    className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white"
                                     placeholder="(555) 123-4567"
                                 />
                             </div>
@@ -99,7 +99,7 @@ export default async function EditCompanyPage({ searchParams }: { searchParams: 
                                 name="email"
                                 type="email"
                                 defaultValue={company.email || ""}
-                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
+                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white"
                                 placeholder="primary@company.com"
                             />
                         </div>
@@ -114,7 +114,7 @@ export default async function EditCompanyPage({ searchParams }: { searchParams: 
                                 defaultValue={company.additionalEmails?.split(",").join("\n") || ""}
                                 placeholder="Enter additional email addresses, one per line"
                                 rows={3}
-                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] resize-none text-sm"
+                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white resize-none text-sm"
                             />
                             <p className="text-xs text-slate-500">For companies with multiple DERs. One email per line.</p>
                         </div>
@@ -129,14 +129,14 @@ export default async function EditCompanyPage({ searchParams }: { searchParams: 
                                 type="number"
                                 min="0"
                                 defaultValue={company.queryBalance}
-                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
+                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white"
                                 placeholder="e.g. 50"
                             />
                         </div>
 
                         {/* Clearinghouse Registration Status */}
                         <div className="space-y-3 p-4 bg-slate-50 rounded-lg border border-slate-200">
-                            <h3 className="text-sm font-bold text-[#143A82]">Clearinghouse Registration Status</h3>
+                            <h3 className="text-sm font-bold text-[#143A82] dark:text-white">Clearinghouse Registration Status</h3>
                             <p className="text-xs text-slate-500">Track whether this employer has completed their FMCSA Clearinghouse setup.</p>
                             <div className="flex items-center gap-3">
                                 <input
@@ -170,7 +170,7 @@ export default async function EditCompanyPage({ searchParams }: { searchParams: 
                         <div className="flex justify-end gap-3">
                             <Link
                                 href={`/companies/${id}`}
-                                className="px-5 py-2.5 bg-white border border-[#77C7EC]/30 text-[#143A82] rounded-lg font-medium hover:bg-[#77C7EC]/5 transition-colors"
+                                className="px-5 py-2.5 bg-white border border-[#77C7EC]/30 text-[#143A82] dark:text-white rounded-lg font-medium hover:bg-[#77C7EC]/5 transition-colors"
                             >
                                 Cancel
                             </Link>

@@ -37,7 +37,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
     return (
         <div className="p-8 sm:p-12 mb-20 bg-white dark:bg-slate-900 min-h-full">
             <div className="mb-6">
-                <Link href="/companies" className="text-sm font-medium text-[#3E91DE] hover:text-[#143A82] flex items-center gap-1 transition-colors">
+                <Link href="/companies" className="text-sm font-medium text-[#3E91DE] hover:text-[#143A82] dark:text-white flex items-center gap-1 transition-colors">
                     <ArrowLeft className="w-4 h-4" /> Back to Companies
                 </Link>
             </div>
@@ -49,9 +49,9 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
                     </div>
                     <div>
                         <div className="flex items-center gap-3">
-                            <h1 className="text-3xl font-bold tracking-tight text-[#143A82]">{company.name}</h1>
+                            <h1 className="text-3xl font-bold tracking-tight text-[#143A82] dark:text-white">{company.name}</h1>
                             <Link href={`/companies/edit?id=${company.id}`}>
-                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-[#3E91DE] hover:text-[#143A82] hover:bg-[#77C7EC]/10">
+                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-[#3E91DE] hover:text-[#143A82] dark:text-white hover:bg-[#77C7EC]/10">
                                     <Edit className="h-4 w-4" />
                                 </Button>
                             </Link>
@@ -70,7 +70,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
                     </div>
                 </div>
 
-                <div className="flex bg-white border border-[#77C7EC]/20 rounded-lg p-1 shadow-sm">
+                <div className="flex bg-white dark:bg-slate-800 border border-[#77C7EC]/20 dark:border-slate-700 rounded-lg p-1 shadow-sm">
                     <div className="px-4 py-2 flex flex-col items-center border-r border-[#77C7EC]/20">
                         <span className="text-xs font-semibold text-[#3E91DE] uppercase tracking-wider">Query Balance</span>
                         <span className={`text-xl font-bold ${company.queryBalance > 5 ? 'text-green-600' : company.queryBalance > 0 ? 'text-amber-600' : 'text-red-600'}`}>
@@ -79,7 +79,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
                     </div>
                     <div className="px-4 py-2 flex flex-col items-center border-r border-[#77C7EC]/20">
                         <span className="text-xs font-semibold text-[#3E91DE] uppercase tracking-wider">Drivers</span>
-                        <span className="text-xl font-bold text-[#143A82]">{company.drivers.length}</span>
+                        <span className="text-xl font-bold text-[#143A82] dark:text-white">{company.drivers.length}</span>
                     </div>
                     <div className="px-4 py-2 flex flex-col items-center">
                         <div className="flex items-center gap-1">
@@ -88,7 +88,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
                         </div>
                         <span className={`text-lg font-bold ${!company.nextBulkQueryDueDate ? 'text-slate-400' :
                             new Date(company.nextBulkQueryDueDate) < new Date() ? 'text-red-600' :
-                                (new Date(company.nextBulkQueryDueDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24) <= 30 ? 'text-amber-600' : 'text-[#143A82]'
+                                (new Date(company.nextBulkQueryDueDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24) <= 30 ? 'text-amber-600' : 'text-[#143A82] dark:text-white'
                             }`}>
                             {company.nextBulkQueryDueDate ? company.nextBulkQueryDueDate.toLocaleDateString() : '—'}
                         </span>
@@ -148,7 +148,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
                                     ) : (
                                         company.drivers.map((driver) => (
                                             <TableRow key={driver.id} className="hover:bg-slate-50/50 transition-colors">
-                                                <TableCell className="font-medium text-[#143A82]">
+                                                <TableCell className="font-medium text-[#143A82] dark:text-white">
                                                     {driver.lastName}, {driver.firstName}
                                                 </TableCell>
                                                 <TableCell className="text-[#3E91DE]">
@@ -202,7 +202,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
                                     company.queries.map((query) => (
                                         <div key={query.id} className="p-4 hover:bg-slate-50 transition-colors">
                                             <div className="flex justify-between items-start mb-1">
-                                                <span className="font-medium text-sm text-[#143A82]">
+                                                <span className="font-medium text-sm text-[#143A82] dark:text-white">
                                                     {query.driver.firstName} {query.driver.lastName}
                                                 </span>
                                                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${query.status === 'ELIGIBLE' ? 'bg-green-100 text-green-800' :
@@ -222,7 +222,7 @@ export default async function CompanyDetailPage({ params }: { params: Promise<{ 
                             </div>
                             {company.queries.length > 0 && (
                                 <div className="p-4 border-t border-[#77C7EC]/10 text-center">
-                                    <Link href={`/queries?companyId=${company.id}`} className="text-sm font-medium text-[#3E91DE] hover:text-[#143A82]">
+                                    <Link href={`/queries?companyId=${company.id}`} className="text-sm font-medium text-[#3E91DE] hover:text-[#143A82] dark:text-white">
                                         View all query history
                                     </Link>
                                 </div>

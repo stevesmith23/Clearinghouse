@@ -91,7 +91,7 @@ export default function EmailTemplateEditor({ templates }: { templates: Template
                                         <button
                                             type="button"
                                             onClick={() => setPreviewId(isPreview ? null : t.id)}
-                                            className="flex items-center gap-1 text-xs text-[#3E91DE] hover:text-[#143A82] transition-colors"
+                                            className="flex items-center gap-1 text-xs text-[#3E91DE] hover:text-[#143A82] dark:text-white transition-colors"
                                         >
                                             {isPreview ? <Code className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
                                             {isPreview ? "Edit HTML" : "Preview"}

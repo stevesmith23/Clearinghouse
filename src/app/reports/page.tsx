@@ -132,7 +132,7 @@ export default async function ReportsPage() {
     return (
         <div className="p-8 pb-20 sm:p-12 bg-white dark:bg-slate-900 min-h-full">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold tracking-tight text-[#143A82] flex items-center gap-3">
+                <h1 className="text-3xl font-bold tracking-tight text-[#143A82] dark:text-white flex items-center gap-3">
                     <BarChart3 className="w-8 h-8 text-[#3E91DE]" />
                     Reports & Analytics
                 </h1>
@@ -147,7 +147,7 @@ export default async function ReportsPage() {
                     <Link
                         key={idx}
                         href={stat.href}
-                        className="bg-white p-6 rounded-xl border border-[#77C7EC]/20 shadow-sm flex flex-col transition-all hover:border-[#3E91DE]/30 hover:shadow-md cursor-pointer group"
+                        className="bg-white dark:bg-slate-800 p-6 rounded-xl border border-[#77C7EC]/20 shadow-sm flex flex-col transition-all hover:border-[#3E91DE]/30 hover:shadow-md cursor-pointer group"
                     >
                         <div className="flex justify-between items-start mb-4">
                             <div className="p-3 rounded-lg bg-gradient-to-br from-[#77C7EC]/10 to-[#3E91DE]/10 text-[#3E91DE]">
@@ -158,7 +158,7 @@ export default async function ReportsPage() {
                         <p className="text-sm font-medium text-[#3E91DE] mb-1">
                             {stat.title}
                         </p>
-                        <h3 className="text-3xl font-bold text-[#143A82]">{stat.value}</h3>
+                        <h3 className="text-3xl font-bold text-[#143A82] dark:text-white">{stat.value}</h3>
                         <p className="text-xs mt-2 font-medium text-[#77C7EC]">
                             {stat.sub}
                         </p>
@@ -170,7 +170,7 @@ export default async function ReportsPage() {
                 {/* Monthly Query Breakdown */}
                 <Card>
                     <CardHeader>
-                        <CardTitle className="flex items-center gap-2 text-[#143A82]">
+                        <CardTitle className="flex items-center gap-2 text-[#143A82] dark:text-white">
                             <TrendingUp className="w-5 h-5 text-[#3E91DE]" />
                             Query Volume (Last 6 Months)
                         </CardTitle>
@@ -180,16 +180,16 @@ export default async function ReportsPage() {
                             <table className="w-full text-sm">
                                 <thead>
                                     <tr className="border-b border-slate-200">
-                                        <th className="text-left py-3 pr-4 font-semibold text-[#143A82]">
+                                        <th className="text-left py-3 pr-4 font-semibold text-[#143A82] dark:text-white">
                                             Month
                                         </th>
-                                        <th className="text-right py-3 px-4 font-semibold text-[#143A82]">
+                                        <th className="text-right py-3 px-4 font-semibold text-[#143A82] dark:text-white">
                                             Pre-Emp (FULL)
                                         </th>
-                                        <th className="text-right py-3 px-4 font-semibold text-[#143A82]">
+                                        <th className="text-right py-3 px-4 font-semibold text-[#143A82] dark:text-white">
                                             Bulk (LIMITED)
                                         </th>
-                                        <th className="text-right py-3 pl-4 font-semibold text-[#143A82]">
+                                        <th className="text-right py-3 pl-4 font-semibold text-[#143A82] dark:text-white">
                                             Total
                                         </th>
                                     </tr>
@@ -210,7 +210,7 @@ export default async function ReportsPage() {
                                                 <td className="py-3 px-4 text-right text-[#77C7EC] font-semibold">
                                                     {data.limited}
                                                 </td>
-                                                <td className="py-3 pl-4 text-right font-bold text-[#143A82]">
+                                                <td className="py-3 pl-4 text-right font-bold text-[#143A82] dark:text-white">
                                                     {data.total}
                                                 </td>
                                             </tr>
@@ -227,7 +227,7 @@ export default async function ReportsPage() {
                     {/* Monthly Growth */}
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2 text-[#143A82]">
+                            <CardTitle className="flex items-center gap-2 text-[#143A82] dark:text-white">
                                 <Building2 className="w-5 h-5 text-[#3E91DE]" />
                                 Monthly Growth Comparison
                             </CardTitle>
@@ -240,7 +240,7 @@ export default async function ReportsPage() {
                                             New Companies
                                         </p>
                                         <div className="flex items-baseline gap-2 mt-1">
-                                            <span className="text-2xl font-bold text-[#143A82]">
+                                            <span className="text-2xl font-bold text-[#143A82] dark:text-white">
                                                 {companiesThisMonth}
                                             </span>
                                             <span className="text-sm text-slate-500">this month</span>
@@ -261,7 +261,7 @@ export default async function ReportsPage() {
                                             New Drivers
                                         </p>
                                         <div className="flex items-baseline gap-2 mt-1">
-                                            <span className="text-2xl font-bold text-[#143A82]">
+                                            <span className="text-2xl font-bold text-[#143A82] dark:text-white">
                                                 {driversThisMonth}
                                             </span>
                                             <span className="text-sm text-slate-500">this month</span>
@@ -283,7 +283,7 @@ export default async function ReportsPage() {
                     {/* Violations Summary */}
                     <Card>
                         <CardHeader>
-                            <CardTitle className="flex items-center gap-2 text-[#143A82]">
+                            <CardTitle className="flex items-center gap-2 text-[#143A82] dark:text-white">
                                 <AlertTriangle className="w-5 h-5 text-[#3E91DE]" />
                                 Violations Summary
                             </CardTitle>
@@ -307,7 +307,7 @@ export default async function ReportsPage() {
                                     </p>
                                 </div>
                                 <div className="flex-1 p-4 rounded-lg bg-slate-50 border border-slate-200 text-center">
-                                    <p className="text-3xl font-bold text-[#143A82]">
+                                    <p className="text-3xl font-bold text-[#143A82] dark:text-white">
                                         {activeViolations + clearedViolations}
                                     </p>
                                     <p className="text-xs font-medium text-slate-500 mt-1">

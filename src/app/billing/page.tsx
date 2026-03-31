@@ -12,14 +12,14 @@ export default function BillingPage() {
                         <FileSpreadsheet className="w-8 h-8" />
                     </div>
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-[#143A82]">Billing & Exports</h1>
+                        <h1 className="text-3xl font-bold tracking-tight text-[#143A82] dark:text-white">Billing & Exports</h1>
                         <p className="text-sm text-[#3E91DE] mt-1">Export query data for external invoicing.</p>
                     </div>
                 </div>
 
-                <div className="bg-white rounded-xl border border-[#77C7EC]/20 shadow-sm overflow-hidden">
+                <div className="bg-white dark:bg-slate-800 rounded-xl border border-[#77C7EC]/20 dark:border-slate-700 shadow-sm overflow-hidden">
                     <div className="border-b border-sidebar-border/50 bg-slate-50/50 p-6">
-                        <h2 className="font-semibold text-[#143A82]">Generate Invoice Spreadsheets</h2>
+                        <h2 className="font-semibold text-[#143A82] dark:text-white">Generate Invoice Spreadsheets</h2>
                         <p className="text-sm text-slate-500 mt-1">
                             Select a date range to download an Excel-ready CSV containing all Pre-Employment (Full) and Partial/Bulk (Limited) queries pulled during that period.
                         </p>

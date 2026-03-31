@@ -22,18 +22,18 @@ export default async function BulkQueryPage({ searchParams }: { searchParams: Pr
     return (
         <div className="p-8 sm:p-12 max-w-3xl mx-auto">
             <div className="mb-6">
-                <Link href="/companies" className="text-sm text-[#3E91DE] hover:text-[#143A82] font-medium flex items-center gap-1 transition-colors w-fit">
+                <Link href="/companies" className="text-sm text-[#3E91DE] hover:text-[#143A82] dark:text-white font-medium flex items-center gap-1 transition-colors w-fit">
                     <ArrowLeft className="w-4 h-4" /> Back to Company Compliance
                 </Link>
             </div>
 
-            <div className="bg-white border border-[#77C7EC]/20 rounded-xl shadow-sm overflow-hidden">
+            <div className="bg-white dark:bg-slate-800 border border-[#77C7EC]/20 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden">
                 <div className="px-6 py-5 border-b border-[#77C7EC]/20 flex items-center gap-3 bg-gradient-to-r from-[#77C7EC]/5 to-transparent">
                     <div className="p-2 bg-[#77C7EC]/10 rounded-lg text-[#3E91DE]">
                         <FileSearch className="w-5 h-5" />
                     </div>
                     <div>
-                        <h2 className="text-lg font-semibold text-[#143A82]">Log Bulk Annual Query</h2>
+                        <h2 className="text-lg font-semibold text-[#143A82] dark:text-white">Log Bulk Annual Query</h2>
                         <p className="text-sm text-[#3E91DE]">Record when you pulled the annual ClearinghouseGroup roster for a TPA client.</p>
                     </div>
                 </div>
@@ -42,7 +42,7 @@ export default async function BulkQueryPage({ searchParams }: { searchParams: Pr
                     <div className="space-y-6">
 
                         <div className="space-y-2">
-                            <label htmlFor="companyId" className="text-sm font-medium text-[#143A82] flex items-center gap-2">
+                            <label htmlFor="companyId" className="text-sm font-medium text-[#143A82] dark:text-white flex items-center gap-2">
                                 <Building2 className="w-4 h-4 text-[#3E91DE]" /> Select Company <span className="text-red-500">*</span>
                             </label>
                             <select
@@ -50,7 +50,7 @@ export default async function BulkQueryPage({ searchParams }: { searchParams: Pr
                                 name="companyId"
                                 required
                                 defaultValue={selectedCompanyId}
-                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] bg-white"
+                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white bg-white"
                             >
                                 <option value="" disabled>Search or select a company...</option>
                                 {companies.map((company: any) => (
@@ -67,7 +67,7 @@ export default async function BulkQueryPage({ searchParams }: { searchParams: Pr
                         </div>
 
                         <div className="space-y-2">
-                            <label htmlFor="queryDate" className="text-sm font-medium text-[#143A82]">
+                            <label htmlFor="queryDate" className="text-sm font-medium text-[#143A82] dark:text-white">
                                 Date Bulk Roster Pulled <span className="text-red-500">*</span>
                             </label>
                             <input
@@ -77,7 +77,7 @@ export default async function BulkQueryPage({ searchParams }: { searchParams: Pr
                                 required
                                 defaultValue={today}
                                 max={today}
-                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
+                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white"
                             />
                         </div>
 
@@ -93,7 +93,7 @@ export default async function BulkQueryPage({ searchParams }: { searchParams: Pr
                                     />
                                 </div>
                                 <div>
-                                    <label htmlFor="updateDrivers" className="text-sm font-bold text-[#143A82] cursor-pointer">
+                                    <label htmlFor="updateDrivers" className="text-sm font-bold text-[#143A82] dark:text-white cursor-pointer">
                                         Cascade to Individual Drivers
                                     </label>
                                     <p className="text-xs text-[#3E91DE] mt-1">
@@ -105,7 +105,7 @@ export default async function BulkQueryPage({ searchParams }: { searchParams: Pr
 
                     </div>
 
-                    <div className="bg-[#77C7EC]/5 p-4 rounded-lg mt-6 border border-[#77C7EC]/20 text-sm text-[#143A82]">
+                    <div className="bg-[#77C7EC]/5 p-4 rounded-lg mt-6 border border-[#77C7EC]/20 text-sm text-[#143A82] dark:text-white">
                         <AlertCircle className="w-5 h-5 text-[#3E91DE] inline-block mr-2 -mt-0.5" />
                         Saving this record will update this company&apos;s next bulk deadline to exactly <strong>365 days</strong> from the Date Pulled.
                     </div>
@@ -113,7 +113,7 @@ export default async function BulkQueryPage({ searchParams }: { searchParams: Pr
                     <div className="mt-8 pt-6 border-t border-[#77C7EC]/20 flex justify-end gap-3">
                         <Link
                             href="/companies"
-                            className="px-5 py-2.5 bg-white border border-[#77C7EC]/30 text-[#143A82] rounded-lg font-medium hover:bg-[#77C7EC]/5 transition-colors"
+                            className="px-5 py-2.5 bg-white border border-[#77C7EC]/30 text-[#143A82] dark:text-white rounded-lg font-medium hover:bg-[#77C7EC]/5 transition-colors"
                         >
                             Cancel
                         </Link>

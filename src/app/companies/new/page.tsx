@@ -10,7 +10,7 @@ export default function NewCompanyPage() {
     return (
         <div className="p-8 sm:p-12 mb-20 bg-white dark:bg-slate-900 min-h-full max-w-3xl mx-auto">
             <div className="mb-6">
-                <Link href="/companies" className="text-sm font-medium text-[#3E91DE] hover:text-[#143A82] flex items-center gap-1 transition-colors">
+                <Link href="/companies" className="text-sm font-medium text-[#3E91DE] hover:text-[#143A82] dark:text-white flex items-center gap-1 transition-colors">
                     <ArrowLeft className="w-4 h-4" /> Back to Companies
                 </Link>
             </div>
@@ -58,7 +58,7 @@ export default function NewCompanyPage() {
                                     name="additionalEmails"
                                     placeholder="Enter additional email addresses, one per line"
                                     rows={3}
-                                    className="w-full px-4 py-2 rounded-lg border border-[#77C7EC]/40 bg-white text-sm text-[#143A82] placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#3E91DE]/40 focus:border-[#3E91DE] transition-all resize-none"
+                                    className="w-full px-4 py-2 rounded-lg border border-[#77C7EC]/40 bg-white text-sm text-[#143A82] dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#3E91DE]/40 focus:border-[#3E91DE] transition-all resize-none"
                                 />
                                 <p className="text-xs text-[#3E91DE]/70">For companies with multiple DERs. One email per line.</p>
                             </div>

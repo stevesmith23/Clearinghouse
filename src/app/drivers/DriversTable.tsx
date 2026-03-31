@@ -153,7 +153,7 @@ export default function DriversTable({ drivers }: { drivers: DriverRow[] }) {
                         ) : (
                             filtered.map((driver) => (
                                 <TableRow key={driver.id} className="hover:bg-slate-50/50 transition-colors">
-                                    <TableCell className="font-medium text-[#143A82]">
+                                    <TableCell className="font-medium text-[#143A82] dark:text-white">
                                         <Link href={`/drivers/${driver.id}`} className="hover:underline">
                                             {driver.lastName}, {driver.firstName}
                                         </Link>
@@ -162,7 +162,7 @@ export default function DriversTable({ drivers }: { drivers: DriverRow[] }) {
                                         {driver.cdlNumber} <span className="text-xs text-slate-400">({driver.cdlState})</span>
                                     </TableCell>
                                     <TableCell>
-                                        <Link href={`/companies/${driver.company.id}`} className="flex items-center gap-1.5 text-[#3E91DE] hover:text-[#143A82] transition-colors">
+                                        <Link href={`/companies/${driver.company.id}`} className="flex items-center gap-1.5 text-[#3E91DE] hover:text-[#143A82] dark:text-white transition-colors">
                                             <Building2 className="w-3.5 h-3.5" />
                                             {driver.company.name}
                                         </Link>

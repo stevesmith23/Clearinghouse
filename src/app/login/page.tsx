@@ -19,7 +19,7 @@ export default function LoginPage() {
                             <polygon points="56,95 56,45 91,30 91,80" fill="#143A82" />
                         </svg>
                     </div>
-                    <h1 className="text-2xl font-bold text-[#143A82] tracking-tight">
+                    <h1 className="text-2xl font-bold text-[#143A82] dark:text-white tracking-tight">
                         Clearinghouse<span className="text-[#3E91DE]">Group</span>
                     </h1>
                     <p className="text-sm text-slate-500 mt-1">Sign in to continue</p>

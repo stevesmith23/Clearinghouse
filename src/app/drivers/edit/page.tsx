@@ -40,18 +40,18 @@ export default async function EditDriverPage({ searchParams }: { searchParams: P
     return (
         <div className="p-8 sm:p-12 max-w-3xl mx-auto">
             <div className="mb-6">
-                <Link href={`/drivers/${id}`} className="text-sm text-[#3E91DE] hover:text-[#143A82] font-medium flex items-center gap-1 transition-colors w-fit">
+                <Link href={`/drivers/${id}`} className="text-sm text-[#3E91DE] hover:text-[#143A82] dark:text-white font-medium flex items-center gap-1 transition-colors w-fit">
                     <ArrowLeft className="w-4 h-4" /> Back to Driver Profile
                 </Link>
             </div>
 
-            <div className="bg-white border border-[#77C7EC]/20 rounded-xl shadow-sm overflow-hidden">
+            <div className="bg-white dark:bg-slate-800 border border-[#77C7EC]/20 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden">
                 <div className="px-6 py-5 border-b border-[#77C7EC]/20 flex items-center gap-3 bg-gradient-to-r from-[#77C7EC]/5 to-transparent">
                     <div className="p-2 bg-[#77C7EC]/10 rounded-lg text-[#3E91DE]">
                         <User className="w-5 h-5" />
                     </div>
                     <div>
-                        <h2 className="text-lg font-semibold text-[#143A82]">Edit Driver</h2>
+                        <h2 className="text-lg font-semibold text-[#143A82] dark:text-white">Edit Driver</h2>
                         <p className="text-sm text-[#3E91DE]">Update driver profile for {driver.company.name}.</p>
                     </div>
                 </div>
@@ -69,7 +69,7 @@ export default async function EditDriverPage({ searchParams }: { searchParams: P
                                     type="text"
                                     required
                                     defaultValue={driver.firstName}
-                                    className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
+                                    className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white"
                                     placeholder="John"
                                 />
                             </div>
@@ -83,7 +83,7 @@ export default async function EditDriverPage({ searchParams }: { searchParams: P
                                     type="text"
                                     required
                                     defaultValue={driver.lastName}
-                                    className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
+                                    className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white"
                                     placeholder="Doe"
                                 />
                             </div>
@@ -100,7 +100,7 @@ export default async function EditDriverPage({ searchParams }: { searchParams: P
                                     type="text"
                                     required
                                     defaultValue={driver.cdlNumber}
-                                    className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
+                                    className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white"
                                     placeholder="D1234567"
                                 />
                             </div>
@@ -114,7 +114,7 @@ export default async function EditDriverPage({ searchParams }: { searchParams: P
                                     type="text"
                                     required
                                     defaultValue={driver.cdlState}
-                                    className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
+                                    className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white"
                                     placeholder="TX"
                                 />
                             </div>
@@ -129,7 +129,7 @@ export default async function EditDriverPage({ searchParams }: { searchParams: P
                                 name="dob"
                                 type="date"
                                 defaultValue={formattedDob}
-                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
+                                className="w-full px-4 py-2 border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white"
                             />
                         </div>
                     </div>
@@ -147,7 +147,7 @@ export default async function EditDriverPage({ searchParams }: { searchParams: P
                         <div className="flex justify-end gap-3">
                             <Link
                                 href={`/drivers/${id}`}
-                                className="px-5 py-2.5 bg-white border border-[#77C7EC]/30 text-[#143A82] rounded-lg font-medium hover:bg-[#77C7EC]/5 transition-colors"
+                                className="px-5 py-2.5 bg-white border border-[#77C7EC]/30 text-[#143A82] dark:text-white rounded-lg font-medium hover:bg-[#77C7EC]/5 transition-colors"
                             >
                                 Cancel
                             </Link>

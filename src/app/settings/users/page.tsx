@@ -21,11 +21,11 @@ export default async function UsersPage() {
                 <div>
                     <Link
                         href="/settings"
-                        className="text-sm text-[#3E91DE] hover:text-[#143A82] font-medium flex items-center gap-1 mb-2 transition-colors"
+                        className="text-sm text-[#3E91DE] hover:text-[#143A82] dark:text-white font-medium flex items-center gap-1 mb-2 transition-colors"
                     >
                         <ArrowLeft className="w-4 h-4" /> Back to Settings
                     </Link>
-                    <h1 className="text-3xl font-bold tracking-tight text-[#143A82]">
+                    <h1 className="text-3xl font-bold tracking-tight text-[#143A82] dark:text-white">
                         User Management
                     </h1>
                     <p className="text-[#3E91DE] mt-1">Create and manage system users.</p>
@@ -36,7 +36,7 @@ export default async function UsersPage() {
                 {/* Create User Form */}
                 <Card className="lg:col-span-1">
                     <CardHeader>
-                        <CardTitle className="flex items-center gap-2 text-[#143A82]">
+                        <CardTitle className="flex items-center gap-2 text-[#143A82] dark:text-white">
                             <UserPlus className="w-5 h-5 text-[#3E91DE]" />
                             Create User
                         </CardTitle>
@@ -49,7 +49,7 @@ export default async function UsersPage() {
                 {/* User List */}
                 <Card className="lg:col-span-2">
                     <CardHeader>
-                        <CardTitle className="flex items-center gap-2 text-[#143A82]">
+                        <CardTitle className="flex items-center gap-2 text-[#143A82] dark:text-white">
                             <Shield className="w-5 h-5 text-[#3E91DE]" />
                             Active Users ({users.length})
                         </CardTitle>
@@ -78,7 +78,7 @@ export default async function UsersPage() {
                                                 {user.name.charAt(0).toUpperCase()}
                                             </div>
                                             <div>
-                                                <p className="font-semibold text-sm text-[#143A82]">
+                                                <p className="font-semibold text-sm text-[#143A82] dark:text-white">
                                                     {user.name}
                                                 </p>
                                                 <p className="text-xs text-slate-500">{user.email}</p>
@@ -87,7 +87,7 @@ export default async function UsersPage() {
                                         <div className="flex items-center gap-3">
                                             <span
                                                 className={`text-xs px-2.5 py-1 rounded-md font-semibold ${user.role === "ADMIN"
-                                                    ? "bg-[#3E91DE]/10 text-[#143A82] border border-[#3E91DE]/20"
+                                                    ? "bg-[#3E91DE]/10 text-[#143A82] dark:text-white border border-[#3E91DE]/20"
                                                     : "bg-emerald-50 text-emerald-700 border border-emerald-200"
                                                     }`}
                                             >

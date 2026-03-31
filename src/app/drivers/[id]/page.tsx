@@ -35,7 +35,7 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
     return (
         <div className="p-8 sm:p-12 mb-20 bg-white dark:bg-slate-900 min-h-full">
             <div className="mb-6">
-                <Link href={`/companies/${driver.companyId}`} className="text-sm font-medium text-[#3E91DE] hover:text-[#143A82] flex items-center gap-1 transition-colors">
+                <Link href={`/companies/${driver.companyId}`} className="text-sm font-medium text-[#3E91DE] hover:text-[#143A82] dark:text-white flex items-center gap-1 transition-colors">
                     <ArrowLeft className="w-4 h-4" /> Back to {driver.company.name}
                 </Link>
             </div>
@@ -46,7 +46,7 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
                         <User className="w-8 h-8" />
                     </div>
                     <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-[#143A82]">
+                        <h1 className="text-3xl font-bold tracking-tight text-[#143A82] dark:text-white">
                             {driver.firstName} {driver.lastName}
                         </h1>
                         <div className="flex items-center gap-4 mt-1 text-sm text-[#3E91DE]">
@@ -141,12 +141,12 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
                             )}
 
                             <div className="bg-slate-50 rounded-lg p-5 border border-slate-100 mb-6">
-                                <h4 className="font-medium text-sm text-[#143A82] mb-3">Upload New Consent</h4>
+                                <h4 className="font-medium text-sm text-[#143A82] dark:text-white mb-3">Upload New Consent</h4>
                                 <form action={addConsent} className="flex flex-wrap items-end gap-3">
                                     <input type="hidden" name="driverId" value={driver.id} />
                                     <div className="flex-1 min-w-[200px]">
                                         <Label htmlFor="type" className="text-xs">Consent Type</Label>
-                                        <select id="type" name="type" className="mt-1 flex h-9 w-full rounded-md border border-[#77C7EC]/40 bg-white px-3 py-1 text-sm text-[#143A82] shadow-sm">
+                                        <select id="type" name="type" className="mt-1 flex h-9 w-full rounded-md border border-[#77C7EC]/40 bg-white px-3 py-1 text-sm text-[#143A82] dark:text-white shadow-sm">
                                             <option value="LIMITED">Limited (General)</option>
                                             <option value="FULL">Full (Pre-Employment)</option>
                                         </select>
@@ -211,7 +211,7 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
                                     driver.queries.map((query) => (
                                         <div key={query.id} className="p-4 hover:bg-slate-50 transition-colors">
                                             <div className="flex justify-between items-start mb-1">
-                                                <span className="font-medium text-sm text-[#143A82]">
+                                                <span className="font-medium text-sm text-[#143A82] dark:text-white">
                                                     {query.type} Query
                                                 </span>
                                                 <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${query.status === 'ELIGIBLE' ? 'bg-green-100 text-green-800' :

@@ -21,7 +21,7 @@ export default async function QueriesPage() {
         <div className="p-8 sm:p-12 mb-20 bg-white dark:bg-slate-900 min-h-full">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-[#143A82]">Query Log</h1>
+                    <h1 className="text-3xl font-bold tracking-tight text-[#143A82] dark:text-white">Query Log</h1>
                     <p className="text-[#3E91DE] mt-1">Master record of all clearinghouse queries across all companies.</p>
                 </div>
                 <Link href="/queries/new">
@@ -76,20 +76,20 @@ export default async function QueriesPage() {
                                             </span>
                                         </TableCell>
                                         <TableCell>
-                                            <Link href={`/drivers/${query.driver.id}`} className="flex items-center gap-1.5 text-[#3E91DE] hover:text-[#143A82] transition-colors">
+                                            <Link href={`/drivers/${query.driver.id}`} className="flex items-center gap-1.5 text-[#3E91DE] hover:text-[#143A82] dark:text-white transition-colors">
                                                 <User className="w-3.5 h-3.5" />
                                                 {query.driver.lastName}, {query.driver.firstName}
                                             </Link>
                                         </TableCell>
                                         <TableCell>
-                                            <Link href={`/companies/${query.company.id}`} className="flex items-center gap-1.5 text-[#3E91DE] hover:text-[#143A82] transition-colors">
+                                            <Link href={`/companies/${query.company.id}`} className="flex items-center gap-1.5 text-[#3E91DE] hover:text-[#143A82] dark:text-white transition-colors">
                                                 <Building2 className="w-3.5 h-3.5" />
                                                 {query.company.name}
                                             </Link>
                                         </TableCell>
                                         <TableCell>
                                             {query.documentUrl ? (
-                                                <a href={query.documentUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-[#3E91DE] hover:text-[#143A82] hover:underline transition-colors">
+                                                <a href={query.documentUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-sm text-[#3E91DE] hover:text-[#143A82] dark:text-white hover:underline transition-colors">
                                                     <LinkIcon className="w-3.5 h-3.5" /> Result PDF
                                                 </a>
                                             ) : (

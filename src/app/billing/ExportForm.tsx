@@ -51,19 +51,19 @@ export function ExportForm() {
             <div className="flex flex-wrap gap-2 mb-4">
                 <button
                     onClick={() => setPresetDates('currentMonth')}
-                    className="px-3 py-1.5 text-xs font-medium bg-[#77C7EC]/10 text-[#143A82] hover:bg-[#77C7EC]/20 border border-[#77C7EC]/30 rounded-md transition-colors"
+                    className="px-3 py-1.5 text-xs font-medium bg-[#77C7EC]/10 text-[#143A82] dark:text-white hover:bg-[#77C7EC]/20 border border-[#77C7EC]/30 rounded-md transition-colors"
                 >
                     Current Month
                 </button>
                 <button
                     onClick={() => setPresetDates('lastMonth')}
-                    className="px-3 py-1.5 text-xs font-medium bg-[#77C7EC]/10 text-[#143A82] hover:bg-[#77C7EC]/20 border border-[#77C7EC]/30 rounded-md transition-colors"
+                    className="px-3 py-1.5 text-xs font-medium bg-[#77C7EC]/10 text-[#143A82] dark:text-white hover:bg-[#77C7EC]/20 border border-[#77C7EC]/30 rounded-md transition-colors"
                 >
                     Last Month
                 </button>
                 <button
                     onClick={() => setPresetDates('ytd')}
-                    className="px-3 py-1.5 text-xs font-medium bg-[#77C7EC]/10 text-[#143A82] hover:bg-[#77C7EC]/20 border border-[#77C7EC]/30 rounded-md transition-colors"
+                    className="px-3 py-1.5 text-xs font-medium bg-[#77C7EC]/10 text-[#143A82] dark:text-white hover:bg-[#77C7EC]/20 border border-[#77C7EC]/30 rounded-md transition-colors"
                 >
                     Year to Date
                 </button>
@@ -78,7 +78,7 @@ export function ExportForm() {
                         type="date"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
-                        className="w-full px-4 py-2 bg-white border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent text-[#143A82] shadow-sm"
+                        className="w-full px-4 py-2 bg-white border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent text-[#143A82] dark:text-white shadow-sm"
                     />
                 </div>
                 <div className="space-y-2">
@@ -89,7 +89,7 @@ export function ExportForm() {
                         type="date"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
-                        className="w-full px-4 py-2 bg-white border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent text-[#143A82] shadow-sm"
+                        className="w-full px-4 py-2 bg-white border border-[#77C7EC]/30 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent text-[#143A82] dark:text-white shadow-sm"
                     />
                 </div>
             </div>

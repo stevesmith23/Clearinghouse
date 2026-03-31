@@ -49,33 +49,33 @@ export default async function ViolationsPage() {
 
             {/* Summary Cards */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                <div className="bg-white border border-red-200 rounded-xl p-4 shadow-sm">
+                <div className="bg-white dark:bg-slate-800 border border-red-200 dark:border-red-900/50 rounded-xl p-4 shadow-sm">
                     <div className="flex items-center gap-2 mb-2">
                         <AlertCircle className="w-4 h-4 text-red-500" />
                         <span className="text-xs font-semibold text-red-600 uppercase tracking-wide">Pending RTD</span>
                     </div>
                     <p className="text-3xl font-bold text-red-700">{activeCount}</p>
                 </div>
-                <div className="bg-white border border-indigo-200 rounded-xl p-4 shadow-sm">
+                <div className="bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-900/50 rounded-xl p-4 shadow-sm">
                     <div className="flex items-center gap-2 mb-2">
                         <Clock className="w-4 h-4 text-indigo-500" />
                         <span className="text-xs font-semibold text-indigo-600 uppercase tracking-wide">RTD Eligible</span>
                     </div>
                     <p className="text-3xl font-bold text-indigo-700">{rtdEligibleCount}</p>
                 </div>
-                <div className="bg-white border border-emerald-200 rounded-xl p-4 shadow-sm">
+                <div className="bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-900/50 rounded-xl p-4 shadow-sm">
                     <div className="flex items-center gap-2 mb-2">
                         <CheckCircle2 className="w-4 h-4 text-emerald-500" />
                         <span className="text-xs font-semibold text-emerald-600 uppercase tracking-wide">Cleared</span>
                     </div>
                     <p className="text-3xl font-bold text-emerald-700">{clearedCount}</p>
                 </div>
-                <div className="bg-white border border-[#77C7EC]/20 rounded-xl p-4 shadow-sm">
+                <div className="bg-white dark:bg-slate-800 border border-[#77C7EC]/20 dark:border-slate-700 rounded-xl p-4 shadow-sm">
                     <div className="flex items-center gap-2 mb-2">
                         <ShieldAlert className="w-4 h-4 text-[#3E91DE]" />
                         <span className="text-xs font-semibold text-[#3E91DE] uppercase tracking-wide">All-Time Total</span>
                     </div>
-                    <p className="text-3xl font-bold text-[#143A82]">{totalCount}</p>
+                    <p className="text-3xl font-bold text-[#143A82] dark:text-white">{totalCount}</p>
                 </div>
             </div>
 
@@ -84,7 +84,7 @@ export default async function ViolationsPage() {
                 {serializedViolations.length === 0 ? (
                     <div className="text-center py-16 px-4 rounded-xl bg-slate-50 border border-dashed border-slate-200">
                         <ShieldAlert className="w-12 h-12 text-[#77C7EC] mx-auto mb-4 opacity-50" />
-                        <h3 className="text-lg font-semibold text-[#143A82]">No Violations Found</h3>
+                        <h3 className="text-lg font-semibold text-[#143A82] dark:text-white">No Violations Found</h3>
                         <p className="text-[#3E91DE]/70 text-sm mt-1">That's a good thing! When a prohibited query result is logged, violations will appear here with full RTD tracking.</p>
                     </div>
                 ) : (

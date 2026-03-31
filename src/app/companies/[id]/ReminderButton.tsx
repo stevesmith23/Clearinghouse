@@ -94,7 +94,7 @@ export function ReminderButton({ companyId, hasEmail, type, hasDeadline }: { com
                     <div className="py-2">
                         <button
                             onClick={handleSendNow}
-                            className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-slate-50 hover:text-[#143A82]"
+                            className="group flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-slate-50 hover:text-[#143A82] dark:text-white"
                         >
                             <Send className="mr-3 h-4 w-4 text-gray-400 group-hover:text-[#3E91DE]" />
                             Send Now
@@ -107,7 +107,7 @@ export function ReminderButton({ companyId, hasEmail, type, hasDeadline }: { com
                         {hasDeadline && (
                             <button
                                 onClick={() => handleSchedule("10-days")}
-                                className="group flex items-center w-full py-2 text-sm text-gray-700 hover:text-[#143A82]"
+                                className="group flex items-center w-full py-2 text-sm text-gray-700 hover:text-[#143A82] dark:text-white"
                             >
                                 <Clock className="mr-3 h-4 w-4 text-gray-400 group-hover:text-[#3E91DE]" />
                                 Send 10 days before deadline

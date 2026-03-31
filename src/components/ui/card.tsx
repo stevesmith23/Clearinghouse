@@ -4,7 +4,7 @@ const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
     ({ className = '', ...props }, ref) => (
         <div
             ref={ref}
-            className={`rounded-xl border border-[#77C7EC]/20 bg-white shadow-sm overflow-hidden ${className}`}
+            className={`rounded-xl border border-[#77C7EC]/20 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-sm overflow-hidden ${className}`}
             {...props}
         />
     )
@@ -15,7 +15,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
     ({ className = '', ...props }, ref) => (
         <div
             ref={ref}
-            className={`flex flex-col space-y-1.5 p-6 border-b border-[#77C7EC]/20 bg-gradient-to-r from-[#77C7EC]/5 to-transparent ${className}`}
+            className={`flex flex-col space-y-1.5 p-6 border-b border-[#77C7EC]/20 dark:border-slate-700 bg-gradient-to-r from-[#77C7EC]/5 to-transparent dark:from-slate-700/30 dark:to-transparent ${className}`}
             {...props}
         />
     )
@@ -26,7 +26,7 @@ const CardTitle = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HT
     ({ className = '', ...props }, ref) => (
         <h3
             ref={ref}
-            className={`font-semibold leading-none tracking-tight text-[#143A82] ${className}`}
+            className={`font-semibold leading-none tracking-tight text-[#143A82] dark:text-white ${className}`}
             {...props}
         />
     )
@@ -37,7 +37,7 @@ const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttribu
     ({ className = '', ...props }, ref) => (
         <p
             ref={ref}
-            className={`text-sm text-[#3E91DE]/80 ${className}`}
+            className={`text-sm text-[#3E91DE]/80 dark:text-slate-400 ${className}`}
             {...props}
         />
     )
@@ -55,7 +55,7 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
     ({ className = '', ...props }, ref) => (
         <div
             ref={ref}
-            className={`flex items-center p-6 pt-0 border-t border-[#77C7EC]/20 bg-slate-50/50 mt-auto ${className}`}
+            className={`flex items-center p-6 pt-0 border-t border-[#77C7EC]/20 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 mt-auto ${className}`}
             {...props}
         />
     )

@@ -187,7 +187,7 @@ export default function ImportCompaniesPage() {
     return (
         <div className="p-8 sm:p-12 mb-20 bg-white dark:bg-[#1a1a2e] min-h-full max-w-5xl mx-auto">
             <div className="mb-6">
-                <Link href="/companies" className="text-sm font-medium text-[#3E91DE] hover:text-[#143A82] flex items-center gap-1 transition-colors">
+                <Link href="/companies" className="text-sm font-medium text-[#3E91DE] hover:text-[#143A82] dark:text-white flex items-center gap-1 transition-colors">
                     <ArrowLeft className="w-4 h-4" /> Back to Companies
                 </Link>
             </div>

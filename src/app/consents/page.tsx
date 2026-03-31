@@ -52,7 +52,7 @@ export default async function ConsentsPage() {
         <div className="p-8 sm:p-12 max-w-7xl mx-auto">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-[#143A82] flex items-center gap-3">
+                    <h1 className="text-3xl font-bold tracking-tight text-[#143A82] dark:text-white flex items-center gap-3">
                         <ClipboardCheck className="w-8 h-8 text-[#3E91DE]" />
                         Consents
                     </h1>
@@ -68,7 +68,7 @@ export default async function ConsentsPage() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                <div className="bg-white border border-[#77C7EC]/20 rounded-xl p-5 shadow-sm">
+                <div className="bg-white dark:bg-slate-800 border border-[#77C7EC]/20 dark:border-slate-700 rounded-xl p-5 shadow-sm">
                     <p className="text-sm font-medium text-slate-500 mb-1">Missing Consents</p>
                     <div className="flex items-end gap-3">
                         <span className="text-3xl font-bold text-slate-800">{missingCount}</span>
@@ -95,14 +95,14 @@ export default async function ConsentsPage() {
                 </div>
             </div>
 
-            <div className="bg-white border border-[#77C7EC]/20 rounded-xl shadow-sm overflow-hidden mb-6">
+            <div className="bg-white dark:bg-slate-800 border border-[#77C7EC]/20 dark:border-slate-700 rounded-xl shadow-sm overflow-hidden mb-6">
                 <div className="p-4 border-b border-[#77C7EC]/20 flex items-center bg-gradient-to-r from-[#77C7EC]/5 to-transparent">
                     <div className="relative max-w-md w-full">
                         <Search className="w-4 h-4 text-[#77C7EC] absolute left-3 top-1/2 -translate-y-1/2" />
                         <input
                             type="text"
                             placeholder="Search by driver name or company..."
-                            className="w-full pl-9 pr-4 py-2 border border-[#77C7EC]/30 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82]"
+                            className="w-full pl-9 pr-4 py-2 border border-[#77C7EC]/30 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#3E91DE] focus:border-transparent transition-shadow text-[#143A82] dark:text-white"
                         />
                     </div>
                 </div>
@@ -122,9 +122,9 @@ export default async function ConsentsPage() {
                                 <tr>
                                     <td colSpan={5} className="px-6 py-12 text-center text-[#3E91DE]">
                                         <ClipboardCheck className="w-12 h-12 text-[#77C7EC] mx-auto mb-3 opacity-50" />
-                                        <p className="text-[#143A82] font-medium text-sm">No drivers found</p>
+                                        <p className="text-[#143A82] dark:text-white font-medium text-sm">No drivers found</p>
                                         <p className="text-[#3E91DE]/70 text-xs mt-1 mb-4">You need to add drivers before tracking their consents.</p>
-                                        <Link href="/drivers/new" className="text-[#3E91DE] hover:text-[#143A82] text-sm font-medium">
+                                        <Link href="/drivers/new" className="text-[#3E91DE] hover:text-[#143A82] dark:text-white text-sm font-medium">
                                             + Add a Driver
                                         </Link>
                                     </td>
@@ -133,7 +133,7 @@ export default async function ConsentsPage() {
                                 processedDrivers.map((driver: any) => (
                                     <tr key={driver.id} className="hover:bg-slate-50/50 transition-colors group">
                                         <td className="px-6 py-4">
-                                            <div className="font-semibold text-[#143A82]">{driver.firstName} {driver.lastName}</div>
+                                            <div className="font-semibold text-[#143A82] dark:text-white">{driver.firstName} {driver.lastName}</div>
                                             <div className="text-xs text-[#3E91DE] mt-0.5 uppercase">{driver.cdlState} - {driver.cdlNumber}</div>
                                         </td>
                                         <td className="px-6 py-4">
@@ -166,7 +166,7 @@ export default async function ConsentsPage() {
                                                 </span>
                                             )}
                                         </td>
-                                        <td className="px-6 py-4 text-sm font-medium text-[#143A82]">
+                                        <td className="px-6 py-4 text-sm font-medium text-[#143A82] dark:text-white">
                                             {driver.latestConsent?.validUntil ? format(new Date(driver.latestConsent.validUntil), 'MMM d, yyyy') : "—"}
                                         </td>
                                         <td className="px-6 py-4 text-right">

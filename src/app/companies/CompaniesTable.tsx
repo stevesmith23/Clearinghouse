@@ -154,7 +154,7 @@ export function CompaniesTable({ companies }: { companies: CompanyRow[] }) {
                             filtered.map((company) => (
                                 <TableRow key={company.id} className="hover:bg-slate-50/50 transition-colors">
                                     <TableCell className="font-medium">
-                                        <Link href={`/companies/${company.id}`} className="hover:underline text-[#143A82]">
+                                        <Link href={`/companies/${company.id}`} className="hover:underline text-[#143A82] dark:text-white">
                                             {company.name}
                                         </Link>
                                     </TableCell>

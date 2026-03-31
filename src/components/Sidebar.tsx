@@ -103,7 +103,7 @@ export default function Sidebar({ userRole, userName, onNavigate }: SidebarProps
                         <p className="font-semibold text-[#143A82] dark:text-white">{userName}</p>
                         <span
                             className={`px-1.5 py-0.5 rounded text-[10px] font-bold ${userRole === "ADMIN"
-                                    ? "bg-[#3E91DE]/15 text-[#143A82]"
+                                    ? "bg-[#3E91DE]/15 text-[#143A82] dark:text-white"
                                     : "bg-emerald-100 text-emerald-700"
                                 }`}
                         >

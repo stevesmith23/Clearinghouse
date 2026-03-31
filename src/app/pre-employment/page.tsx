@@ -13,7 +13,7 @@ export default async function PreEmploymentPage() {
         <div className="flex-1 space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h2 className="text-3xl font-bold tracking-tight text-[#143A82]">Pre-Employment Tracking</h2>
+                    <h2 className="text-3xl font-bold tracking-tight text-[#143A82] dark:text-white">Pre-Employment Tracking</h2>
                     <p className="text-muted-foreground mt-2">
                         Drivers who are missing a completed &quot;FULL&quot; query. These drivers must be queried before performing safety-sensitive functions.
                     </p>
@@ -59,7 +59,7 @@ export default async function PreEmploymentPage() {
                                                 </Link>
                                             </TableCell>
                                             <TableCell>
-                                                <Link href={`/companies/${driver.companyId}`} className="text-slate-600 hover:text-[#143A82] hover:underline">
+                                                <Link href={`/companies/${driver.companyId}`} className="text-slate-600 hover:text-[#143A82] dark:text-white hover:underline">
                                                     {driver.companyName}
                                                 </Link>
                                             </TableCell>

@@ -85,7 +85,7 @@ export default async function AlertsPage() {
         <div className="p-8 sm:p-12 mb-20 bg-white dark:bg-slate-900 min-h-full">
             <div className="mb-8 flex justify-between items-start">
                 <div>
-                    <h1 className="text-3xl font-bold tracking-tight text-[#143A82] flex items-center gap-3">
+                    <h1 className="text-3xl font-bold tracking-tight text-[#143A82] dark:text-white flex items-center gap-3">
                         <AlertCircle className="w-8 h-8 text-[#3E91DE]" />
                         Alerts & Action Items
                     </h1>
@@ -127,7 +127,7 @@ export default async function AlertsPage() {
                                 {activeViolations.map(v => (
                                     <div key={v.id} className="flex items-center justify-between py-3">
                                         <div>
-                                            <p className="font-semibold text-sm text-[#143A82]">{v.driver.firstName} {v.driver.lastName}</p>
+                                            <p className="font-semibold text-sm text-[#143A82] dark:text-white">{v.driver.firstName} {v.driver.lastName}</p>
                                             <p className="text-xs text-slate-500">{v.driver.company.name} · {v.violationType.replace(/_/g, ' ')} · Status: <span className="font-semibold text-red-600">{v.status.replace(/_/g, ' ')}</span></p>
                                         </div>
                                         <Link href={`/drivers/${v.driverId}`}>
@@ -164,7 +164,7 @@ export default async function AlertsPage() {
                                 {overdueDrivers.slice(0, 10).map(d => (
                                     <div key={d.id} className="flex items-center justify-between py-3">
                                         <div>
-                                            <p className="font-semibold text-sm text-[#143A82]">{d.firstName} {d.lastName}</p>
+                                            <p className="font-semibold text-sm text-[#143A82] dark:text-white">{d.firstName} {d.lastName}</p>
                                             <p className="text-xs text-slate-500">{d.company.name} · Due: <span className="font-semibold text-red-600">{d.nextQueryDueDate?.toLocaleDateString()}</span></p>
                                         </div>
                                         <Link href={`/queries/new?driverId=${d.id}&companyId=${d.companyId}`}>
@@ -204,7 +204,7 @@ export default async function AlertsPage() {
                                 {bulkQueriesDue.map(c => (
                                     <div key={c.id} className="flex items-center justify-between py-3">
                                         <div>
-                                            <p className="font-semibold text-sm text-[#143A82]">{c.name}</p>
+                                            <p className="font-semibold text-sm text-[#143A82] dark:text-white">{c.name}</p>
                                             <p className="text-xs text-slate-500">
                                                 {c._count.drivers} drivers · Due: <span className={`font-semibold ${c.nextBulkQueryDueDate && c.nextBulkQueryDueDate < now ? "text-red-600" : "text-amber-600"}`}>
                                                     {c.nextBulkQueryDueDate?.toLocaleDateString()}
@@ -246,7 +246,7 @@ export default async function AlertsPage() {
                                 {companiesWithShortfall.map(c => (
                                     <div key={c.id} className="flex items-center justify-between py-3">
                                         <div>
-                                            <p className="font-semibold text-sm text-[#143A82]">{c.name}</p>
+                                            <p className="font-semibold text-sm text-[#143A82] dark:text-white">{c.name}</p>
                                             <p className="text-xs text-slate-500">
                                                 Balance: <span className="font-semibold text-red-600">{c.queryBalance}</span> · Drivers: {c._count.drivers} · <span className="text-red-600 font-semibold">Needs {c._count.drivers - c.queryBalance} more</span>
                                             </p>
@@ -285,7 +285,7 @@ export default async function AlertsPage() {
                                 {expiringConsentsList.map(c => (
                                     <div key={c.id} className="flex items-center justify-between py-3">
                                         <div>
-                                            <p className="font-semibold text-sm text-[#143A82]">{c.driver.firstName} {c.driver.lastName}</p>
+                                            <p className="font-semibold text-sm text-[#143A82] dark:text-white">{c.driver.firstName} {c.driver.lastName}</p>
                                             <p className="text-xs text-slate-500">{c.driver.company.name} · {c.type} consent · Expires: <span className="font-semibold text-amber-600">{c.validUntil?.toLocaleDateString()}</span></p>
                                         </div>
                                         <Link href={`/drivers/${c.driverId}`}>
@@ -322,7 +322,7 @@ export default async function AlertsPage() {
                                 {driversWithoutConsent.slice(0, 10).map(d => (
                                     <div key={d.id} className="flex items-center justify-between py-3">
                                         <div>
-                                            <p className="font-semibold text-sm text-[#143A82]">{d.firstName} {d.lastName}</p>
+                                            <p className="font-semibold text-sm text-[#143A82] dark:text-white">{d.firstName} {d.lastName}</p>
                                             <p className="text-xs text-slate-500">{d.company.name}</p>
                                         </div>
                                         <Link href={`/drivers/${d.id}`}>
