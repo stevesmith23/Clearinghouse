@@ -25,7 +25,7 @@ export async function POST(request: Request): Promise<NextResponse> {
     const filename = `consents/${timestamp}_${safeName}`;
 
     const blob = await put(filename, file, {
-        access: 'public',
+        access: 'private',
     });
 
     return NextResponse.json({ url: blob.url });

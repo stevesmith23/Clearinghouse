@@ -167,7 +167,7 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
                                             <TableCell className="text-slate-500">{new Date(consent.createdAt).toLocaleDateString()}</TableCell>
                                             <TableCell>
                                                 {consent.documentUrl ? (
-                                                    <a href={consent.documentUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-[#3E91DE] hover:text-[#143A82] transition-colors">
+                                                    <a href={`/api/upload/download?url=${encodeURIComponent(consent.documentUrl)}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-[#3E91DE] hover:text-[#143A82] transition-colors">
                                                         <FileDown className="w-3.5 h-3.5" /> View
                                                     </a>
                                                 ) : (
