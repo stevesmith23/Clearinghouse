@@ -1,14 +1,13 @@
 import { prisma } from "@/lib/prisma"
 import { notFound } from "next/navigation"
 import Link from "next/link"
-import { ArrowLeft, User, Building2, CreditCard, Calendar, FileCheck, ShieldAlert, CheckCircle2, Edit } from "lucide-react"
+import { ArrowLeft, User, Building2, CreditCard, Calendar, FileCheck, ShieldAlert, CheckCircle2, Edit, FileDown } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { addConsent, revokeConsent } from "@/app/actions/drivers"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+import { revokeConsent } from "@/app/actions/drivers"
 import DriverNotes from "./DriverNotes"
+import ConsentUploadForm from "./ConsentUploadForm"
 
 export const dynamic = 'force-dynamic';
 
@@ -140,24 +139,7 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
                                 </div>
                             )}
 
-                            <div className="bg-slate-50 rounded-lg p-5 border border-slate-100 mb-6">
-                                <h4 className="font-medium text-sm text-[#143A82] dark:text-white mb-3">Upload New Consent</h4>
-                                <form action={addConsent} className="flex flex-wrap items-end gap-3">
-                                    <input type="hidden" name="driverId" value={driver.id} />
-                                    <div className="flex-1 min-w-[200px]">
-                                        <Label htmlFor="type" className="text-xs">Consent Type</Label>
-                                        <select id="type" name="type" className="mt-1 flex h-9 w-full rounded-md border border-[#77C7EC]/40 bg-white px-3 py-1 text-sm text-[#143A82] dark:text-white shadow-sm">
-                                            <option value="LIMITED">Limited (General)</option>
-                                            <option value="FULL">Full (Pre-Employment)</option>
-                                        </select>
-                                    </div>
-                                    <div className="flex-1 min-w-[200px]">
-                                        <Label htmlFor="validUntil" className="text-xs">Valid Until (Optional)</Label>
-                                        <Input id="validUntil" name="validUntil" type="date" className="mt-1 h-9" />
-                                    </div>
-                                    <Button type="submit" size="sm" className="h-9">Add Consent</Button>
-                                </form>
-                            </div>
+                            <ConsentUploadForm driverId={driver.id} />
 
                             <Table>
                                 <TableHeader>
@@ -166,6 +148,7 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
                                         <TableHead>Status</TableHead>
                                         <TableHead>Valid Until</TableHead>
                                         <TableHead>Created</TableHead>
+                                        <TableHead>PDF</TableHead>
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody>
@@ -182,11 +165,20 @@ export default async function DriverDetailPage({ params }: { params: Promise<{ i
                                             </TableCell>
                                             <TableCell>{consent.validUntil ? new Date(consent.validUntil).toLocaleDateString() : '-'}</TableCell>
                                             <TableCell className="text-slate-500">{new Date(consent.createdAt).toLocaleDateString()}</TableCell>
+                                            <TableCell>
+                                                {consent.documentUrl ? (
+                                                    <a href={consent.documentUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-[#3E91DE] hover:text-[#143A82] transition-colors">
+                                                        <FileDown className="w-3.5 h-3.5" /> View
+                                                    </a>
+                                                ) : (
+                                                    <span className="text-xs text-slate-400">—</span>
+                                                )}
+                                            </TableCell>
                                         </TableRow>
                                     ))}
                                     {driver.consents.length === 0 && (
                                         <TableRow>
-                                            <TableCell colSpan={4} className="text-center py-4 text-slate-500">No consents recorded.</TableCell>
+                                            <TableCell colSpan={5} className="text-center py-4 text-slate-500">No consents recorded.</TableCell>
                                         </TableRow>
                                     )}
                                 </TableBody>

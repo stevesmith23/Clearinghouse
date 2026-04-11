@@ -39,6 +39,7 @@ export async function addConsent(formData: FormData) {
     const driverId = formData.get("driverId") as string
     const type = formData.get("type") as string
     const validUntilString = formData.get("validUntil") as string
+    const documentUrl = formData.get("documentUrl") as string | null
 
     if (!driverId || !type) throw new Error("Missing fields")
 
@@ -56,6 +57,7 @@ export async function addConsent(formData: FormData) {
             type,
             status: "ACTIVE",
             validUntil,
+            documentUrl: documentUrl || null,
         }
     })
 
